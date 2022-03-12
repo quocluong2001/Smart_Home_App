@@ -4,8 +4,6 @@ import { View, TextInput, StyleSheet } from 'react-native';
 import Colors from "../constants/Colors";
 
 const InputField = props => {
-    
-
     return (
         <View style={{...styles.inputContainer, ...props.containerStyle}}>
             <TextInput

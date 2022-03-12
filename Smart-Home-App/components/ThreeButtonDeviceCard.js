@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    Image,
+    TouchableWithoutFeedback,
+    Keyboard
+} from 'react-native';
 
 import BodyText from './BodyText';
 import NormalButton from './NormalButton';
@@ -7,46 +13,69 @@ import Colors from '../constants/Colors';
 
 const ThreeButtonDeviceCard = props => {
     return (
-        <View style={styles.container}>
-            <View style={styles.textContainer}>
-                <BodyText style={styles.deviceTypeText}>
-                    {props.deviceType}
-                </BodyText>
-            </View>
-            <View style={styles.contentContainer}>
-                <View style={styles.imageStateContainer}>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            source={props.source}
-                            resizeMode='contain'
-                            style={styles.image}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <View style={styles.textContainer}>
+                    <BodyText style={styles.deviceTypeText}>
+                        {props.deviceType}
+                    </BodyText>
+                </View>
+                <View style={styles.contentContainer}>
+                    <View style={styles.imageStateContainer}>
+                        <View style={styles.imageContainer}>
+                            <Image
+                                source={props.source}
+                                resizeMode='contain'
+                                style={styles.image}
+                            />
+                        </View>
+                        <View style={styles.stateContainer}>
+                            <BodyText style={styles.state}>
+                                {props.state}
+                            </BodyText>
+                        </View>
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <NormalButton
+                            buttonStyle={{
+                                ...styles.button0,
+                                ...props.button0Style
+                            }}
+                            buttonTextStyle={{
+                                ...styles.button0Text,
+                                ...props.button0TextStyle
+                            }}
+                            buttonName={props.button0Name}
+                            onPress={props.onPressButton0}
+                        />
+                        <NormalButton
+                            buttonStyle={{
+                                ...styles.button1,
+                                ...props.button1Style
+                            }}
+                            buttonTextStyle={{
+                                ...styles.button1Text,
+                                ...props.button1TextStyle
+                            }}
+                            buttonName={props.button1Name}
+                            onPress={props.onPressButton1}
+                        />
+                        <NormalButton
+                            buttonStyle={{
+                                ...styles.button2,
+                                ...props.button2Style
+                            }}
+                            buttonTextStyle={{
+                                ...styles.button2Text,
+                                ...props.button2TextStyle
+                            }}
+                            buttonName={props.button2Name}
+                            onPress={props.onPressButton2}
                         />
                     </View>
-                    <View style={styles.stateContainer}>
-                        <BodyText style={styles.state}>
-                            {props.state}
-                        </BodyText>
-                    </View>
-                </View>
-                <View style={styles.buttonContainer}>
-                    <NormalButton
-                        buttonStyle={{...styles.button0, ...props.button0Style}}
-                        buttonTextStyle={{...styles.button0Text, ...props.button0TextStyle}}
-                        buttonName={props.button0Name}
-                    />
-                    <NormalButton
-                        buttonStyle={{...styles.button1, ...props.button1Style}}
-                        buttonTextStyle={{...styles.button1Text, ...props.button1TextStyle}}
-                        buttonName={props.button1Name}
-                    />
-                    <NormalButton
-                        buttonStyle={{...styles.button2, ...props.button2Style}}
-                        buttonTextStyle={{...styles.button2Text, ...props.button2TextStyle}}
-                        buttonName={props.button2Name}
-                    />
                 </View>
             </View>
-        </View>
+        </TouchableWithoutFeedback>
     )
 }
 
@@ -82,7 +111,7 @@ const styles = StyleSheet.create({
 
     imageStateContainer: {
         alignItems: 'center',
-    },  
+    },
 
     imageContainer: {
         width: 90,

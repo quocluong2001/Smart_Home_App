@@ -1,5 +1,11 @@
 import { React, useState } from "react";
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    Keyboard
+} from 'react-native';
 
 import InputField from "./InputField";
 import Colors from "../constants/Colors";
@@ -20,45 +26,47 @@ const LoginCard = props => {
     }
 
     return (
-        <View style={styles.container}>
-            <InputField
-                placeholder='Username'
-                autoCapitalize='none'
-                autoCorrect={false}
-                textAlign='left'
-                containerStyle={styles.usernameInputContainer}
-                keyboardType='email-address'
-                onChangeText={usernameInputHandler}
-                value={username}
-            />
-            <InputField
-                placeholder='Password'
-                autoCapitalize='none'
-                autoCorrect={false}
-                textAlign='left'
-                containerStyle={styles.passwordInputContainer}
-                keyboardType='email-address'
-                secureTextEntry={true}
-                onChangeText={passwordInputHandler}
-                value={password}
-            />
-            <NormalButton
-                buttonName='Login'
-                buttonStyle={styles.loginButton}
-                buttonTextStyle={styles.loginButtonText}
-                onPress={() => {}}
-            />
-            <TouchableOpacity
-                activeOpacity={0.5}
-                onPress={() => {}}
-            >
-                <View style={styles.forgotPasswordContainer}>
-                    <BodyText style={{ color: Colors.fontColor3 }}>
-                        Forgot password
-                    </BodyText>
-                </View>
-            </TouchableOpacity>
-        </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <InputField
+                    placeholder='Username'
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    textAlign='left'
+                    containerStyle={styles.usernameInputContainer}
+                    keyboardType='email-address'
+                    onChangeText={usernameInputHandler}
+                    value={username}
+                />
+                <InputField
+                    placeholder='Password'
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    textAlign='left'
+                    containerStyle={styles.passwordInputContainer}
+                    keyboardType='default'
+                    secureTextEntry={true}
+                    onChangeText={passwordInputHandler}
+                    value={password}
+                />
+                <NormalButton
+                    buttonName='Login'
+                    buttonStyle={styles.loginButton}
+                    buttonTextStyle={styles.loginButtonText}
+                    onPress={() => { }}
+                />
+                <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => { }}
+                >
+                    <View style={styles.forgotPasswordContainer}>
+                        <BodyText style={{ color: Colors.fontColor3 }}>
+                            Forgot password
+                        </BodyText>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        </TouchableWithoutFeedback>
     )
 }
 

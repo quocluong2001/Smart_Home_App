@@ -3,11 +3,11 @@ import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 const DeviceButton = props => {
     return (
-        <TouchableOpacity 
-        activeOpacity={0.5}
-        onPress={props.onPress}
+        <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={props.onPress}
         >
-            <View style={{...styles.imageContainer, ...props.buttonStyle}}>
+            <View style={{ ...styles.imageContainer, ...props.buttonStyle }}>
                 <Image
                     source={props.source}
                     resizeMode="cover"
