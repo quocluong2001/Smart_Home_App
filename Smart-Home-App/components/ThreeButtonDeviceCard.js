@@ -3,10 +3,9 @@ import { View, StyleSheet, Image } from 'react-native';
 
 import BodyText from './BodyText';
 import NormalButton from './NormalButton';
-
 import Colors from '../constants/Colors';
 
-const TwoButtonDeviceCard = props => {
+const ThreeButtonDeviceCard = props => {
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
@@ -39,6 +38,11 @@ const TwoButtonDeviceCard = props => {
                         buttonStyle={{...styles.button1, ...props.button1Style}}
                         buttonTextStyle={{...styles.button1Text, ...props.button1TextStyle}}
                         buttonName={props.button1Name}
+                    />
+                    <NormalButton
+                        buttonStyle={{...styles.button2, ...props.button2Style}}
+                        buttonTextStyle={{...styles.button2Text, ...props.button2TextStyle}}
+                        buttonName={props.button2Name}
                     />
                 </View>
             </View>
@@ -108,7 +112,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         width: '50%',
-        height: '62%',
+        height: '82%',
     },
 
     button0: {
@@ -130,6 +134,16 @@ const styles = StyleSheet.create({
     button1Text: {
         color: 'black'
     },
+
+    button2: {
+        borderRadius: 12,
+        width: 108,
+        height: 37
+    },
+
+    button2Text: {
+        color: 'black'
+    },
 })
 
-export default TwoButtonDeviceCard
+export default ThreeButtonDeviceCard

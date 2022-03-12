@@ -5,14 +5,17 @@ import BodyText from "./BodyText";
 
 const RoomButton = props => {
     return (
-        <TouchableOpacity activeOpacity={0.5}>
-            <View style={{...styles.imageContainer, ...props.buttonStyle}}>
+        <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={props.onPress}
+        >
+            <View style={{ ...styles.imageContainer, ...props.buttonStyle }}>
                 <Image
                     source={props.source}
                     resizeMode="cover"
                     style={styles.image}
                 />
-                <BodyText style={{ fontFamily: 'roboto-bold', ...props.buttonTextStyle}}>
+                <BodyText style={{ fontFamily: 'roboto-bold', ...props.buttonTextStyle }}>
                     {props.roomName}
                 </BodyText>
             </View>

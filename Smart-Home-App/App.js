@@ -8,6 +8,10 @@ import DeviceButton from './components/DeviceButton';
 import RoomButton from './components/RoomButton';
 import NormalButton from './components/NormalButton';
 import TwoButtonDeviceCard from './components/TwoButtonDeviceCard';
+import ThreeButtonDeviceCard from './components/ThreeButtonDeviceCard';
+import Colors from './constants/Colors';
+import InputField from './components/InputField';
+import LoginCard from './components/LoginCard';
 
 const useFonts = async () => {
   await fetchFonts()
@@ -41,19 +45,24 @@ export default function App() {
         <Header>
           HOME
         </Header>
-        <RoomButton source={require('./assets/images/Bathroom.png')} roomName='Bathroom' />
+        {/* <RoomButton source={require('./assets/images/Bathroom.png')} roomName='Bathroom' />
         <DeviceButton source={require('./assets/images/Light.png')} />
-        <NormalButton buttonName='Login' buttonStyle={styles.button} buttonTextStyle={styles.buttonText} />
-        <TwoButtonDeviceCard
+        <NormalButton buttonName='Login' buttonStyle={styles.button} buttonTextStyle={styles.buttonText} /> */}
+        <ThreeButtonDeviceCard
           deviceType='Light'
           source={require('./assets/images/Fan.png')}
-          button1Name='On'
-          button2Name='Off'
-          button1Style={styles.button}
+          button0Name='On'
+          button1Name='Off'
+          button2Name='Set Timer'
+          button0Style={styles.button1}
+          button0TextStyle={styles.buttonText}
+          button1Style={styles.button2}
           button1TextStyle={styles.buttonText}
-          button2Style={styles.button}
+          button2Style={styles.button3}
           button2TextStyle={styles.buttonText}
+          state='Working'
         />
+        <LoginCard/>
       </View>
     </ImageBackground>
   );
@@ -71,8 +80,16 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 
-  button: {
-    backgroundColor: '#CC3A3A',
+  button1: {
+    backgroundColor: Colors.buttonColor0,
+  },
+
+  button2: {
+    backgroundColor: Colors.buttonColor1,
+  },
+
+  button3: {
+    backgroundColor: Colors.buttonColor3,
   },
 
   buttonText: {

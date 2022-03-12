@@ -1,13 +1,16 @@
-import React from "react"; 
+import React from "react";
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
 
 import BodyText from "./BodyText";
 
 const NormalButton = props => {
     return (
-        <TouchableOpacity activeOpacity={0.5}>
-            <View style={{...styles.button, ...props.buttonStyle}}>
-                <BodyText style={{...styles.buttonText, ...props.buttonTextStyle}}>
+        <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={props.onPress}
+        >
+            <View style={{ ...styles.button, ...props.buttonStyle }}>
+                <BodyText style={{ ...styles.buttonText, ...props.buttonTextStyle }}>
                     {props.buttonName}
                 </BodyText>
             </View>
@@ -20,7 +23,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: "center",
         justifyContent: "center",
-        padding: 10,
+        padding: 5,
     },
 
     buttonText: {
