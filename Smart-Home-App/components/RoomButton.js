@@ -1,13 +1,12 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-import Card from "./Card";
 import BodyText from "./BodyText";
 
 const RoomButton = props => {
     return (
         <TouchableOpacity activeOpacity={0.5}>
-            <Card style={{...styles.imageContainer, ...props.buttonStyle}}>
+            <View style={{...styles.imageContainer, ...props.buttonStyle}}>
                 <Image
                     source={props.source}
                     resizeMode="cover"
@@ -16,7 +15,7 @@ const RoomButton = props => {
                 <BodyText style={{ fontFamily: 'roboto-bold', ...props.buttonTextStyle}}>
                     {props.roomName}
                 </BodyText>
-            </Card>
+            </View>
         </TouchableOpacity>
     )
 }
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
         borderColor: '#000000',
         borderRadius: 5,
         borderWidth: 1,
-        padding: 20,
+        padding: 30,
     },
 
     image: {
