@@ -15,7 +15,7 @@ const TitleText = props => {
 const styles = StyleSheet.create({
     titleText: {
         fontFamily: 'r-flex-bold',
-        fontSize: 20,
+        fontSize: 30,
     }
 })
 

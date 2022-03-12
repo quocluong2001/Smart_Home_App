@@ -17,7 +17,7 @@ const TwoButtonDeviceCard = props => {
                     <View style={styles.imageContainer}>
                         <Image
                             source={props.source}
-                            resizeMode='cover'
+                            resizeMode='contain'
                             style={styles.image}
                         />
                     </View>

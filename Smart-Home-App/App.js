@@ -35,6 +35,7 @@ export default function App() {
       source={require('./assets/images/Background1.png')}
       resizeMode='cover'
       style={styles.screen}
+      opacity={0.7}
     >
       <View style={styles.content}>
         <Header>
@@ -45,7 +46,7 @@ export default function App() {
         <NormalButton buttonName='Login' buttonStyle={styles.button} buttonTextStyle={styles.buttonText} />
         <TwoButtonDeviceCard
           deviceType='Light'
-          source={require('./assets/images/Light.png')}
+          source={require('./assets/images/Fan.png')}
           button1Name='On'
           button2Name='Off'
           button1Style={styles.button}
