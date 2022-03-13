@@ -6,7 +6,7 @@ import BodyText from "./BodyText";
 const RoomButton = props => {
     return (
         <TouchableOpacity
-            activeOpacity={0.5}
+            activeOpacity={0.8}
             onPress={props.onPress}
         >
             <View style={{ ...styles.imageContainer, ...props.buttonStyle }}>

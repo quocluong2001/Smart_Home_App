@@ -4,6 +4,8 @@ import AppLoading from 'expo-app-loading';
 
 import fetchFonts from './utils/fetchFonts';
 import TestScreen from './screens/TestScreen';
+import LoginScreen from './screens/LoginScreen';
+import HomeScreen from './screens/HomeScreen';
 
 const useFonts = async () => {
   await fetchFonts()
@@ -27,7 +29,7 @@ export default function App() {
   //! Done load data
 
   return (
-    <TestScreen/>
+    <HomeScreen/>
   );
 }
 
