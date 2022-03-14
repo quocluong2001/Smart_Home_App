@@ -15,7 +15,7 @@ import Colors from '../constants/Colors';
 const TwoButtonDeviceCard = props => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
+            <View style={{...styles.container, ...props.style}}>
                 <View style={styles.textContainer}>
                     <BodyText style={styles.deviceTypeText}>
                         {props.deviceType}

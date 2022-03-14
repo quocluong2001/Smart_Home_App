@@ -6,6 +6,10 @@ import fetchFonts from './utils/fetchFonts';
 import TestScreen from './screens/TestScreen';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
+import RoomScreen from './screens/RoomScreen';
+import LightScreen from './screens/LightScreen';
+import DoorScreen from './screens/DoorScreen';
+import FanScreen from './screens/FanScreen';
 
 const useFonts = async () => {
   await fetchFonts()
@@ -29,7 +33,7 @@ export default function App() {
   //! Done load data
 
   return (
-    <HomeScreen/>
+    <FanScreen/>
   );
 }
 

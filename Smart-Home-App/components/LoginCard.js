@@ -53,11 +53,11 @@ const LoginCard = props => {
                     buttonName='Login'
                     buttonStyle={styles.loginButton}
                     buttonTextStyle={styles.loginButtonText}
-                    onPress={() => { }}
+                    onPress={props.onLogin}
                 />
                 <TouchableOpacity
                     activeOpacity={0.5}
-                    onPress={() => { }}
+                    onPress={props.onForgotPassword}
                 >
                     <View style={styles.forgotPasswordContainer}>
                         <BodyText style={{ color: Colors.fontColor3 }}>
