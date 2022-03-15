@@ -1,18 +1,19 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
-
-import Card from "./Card";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 const DeviceButton = props => {
     return (
-        <TouchableOpacity activeOpacity={0.5}>
-            <Card style={{...styles.imageContainer, ...props.buttonStyle}}>
+        <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={props.onPress}
+        >
+            <View style={{ ...styles.imageContainer, ...props.buttonStyle }}>
                 <Image
                     source={props.source}
-                    resizeMode="cover"
+                    resizeMode="contain"
                     style={styles.image}
                 />
-            </Card>
+            </View>
         </TouchableOpacity>
     )
 }
@@ -24,6 +25,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: 'rgba(62, 64, 91, 0.8)',
+        padding: 10,
+        borderRadius: 24
     },
 
     image: {

@@ -1,12 +1,15 @@
 import { React, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import AppLoading from 'expo-app-loading';
 
-import Header from './components/Header';
 import fetchFonts from './utils/fetchFonts';
-import DeviceButton from './components/DeviceButton';
-import RoomButton from './components/RoomButton';
-import NormalButton from './components/NormalButton';
+import TestScreen from './screens/TestScreen';
+import LoginScreen from './screens/LoginScreen';
+import HomeScreen from './screens/HomeScreen';
+import RoomScreen from './screens/RoomScreen';
+import LightScreen from './screens/LightScreen';
+import DoorScreen from './screens/DoorScreen';
+import FanScreen from './screens/FanScreen';
 
 const useFonts = async () => {
   await fetchFonts()
@@ -30,28 +33,10 @@ export default function App() {
   //! Done load data
 
   return (
-    <View style={styles.screen}>
-      <Header>
-        HOME
-      </Header>
-      <RoomButton source={require('./assets/sloth.jpg')} roomName='Bathroom' />
-      <DeviceButton source={require('./assets/sloth.jpg')} />
-      <NormalButton buttonName='Login' buttonStyle={styles.button} buttonTextStyle={styles.buttonText}/>
-    </View>
+    <LightScreen/>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  
-  button: {
-    backgroundColor: '#CC3A3A',
-  },
 
-  buttonText: {
-    color: '#FFFFFF',
-  }
 });

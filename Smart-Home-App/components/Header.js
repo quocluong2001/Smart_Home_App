@@ -18,7 +18,6 @@ const Header = props => {
 
 const styles = StyleSheet.create({
     header: {
-        padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
         borderBottomWidth: 1,
