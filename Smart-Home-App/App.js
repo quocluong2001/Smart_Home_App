@@ -33,7 +33,7 @@ export default function App() {
   //! Done load data
 
   return (
-    <FanScreen/>
+    <LightScreen/>
   );
 }
 

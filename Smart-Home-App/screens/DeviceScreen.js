@@ -14,10 +14,12 @@ import Colors from "../constants/Colors";
 import NormalButton from "../components/NormalButton";
 import useForceUpdate from "../custom_hooks/useForceUpdate";
 import AddNewDeviceModal from "../components/AddNewDeviceModal";
+import RemoveDeviceModal from "../components/RemoveDeviceModal";
 
 const DeviceScreen = props => {
     const [cards, setCards] = useState([])
     const [isAddMode, setIsAddMode] = useState(false)
+    const [isRemoveMode, setIsRemoveMode] = useState(false)
     const activeStateText = props.activeStateText
     const inactiveStateText = props.inactiveStateText
     const numOfButtonsCard = props.numOfButtonsCard //! Accept '2' or '3' only
@@ -52,9 +54,31 @@ const DeviceScreen = props => {
         setIsAddMode(true)
     }
 
+    const openRemoveModeHandler = () => {
+        if (cards.length === 0) {
+            Alert.alert(
+                'There are no devices to remove',
+                '',
+                [{ text: 'OK', style: 'cancel' }]
+            )
+            return
+        }
+        
+        setIsRemoveMode(true)
+    }
+
     const addNewLightCardHandler = deviceInform => {
+        if (deviceInform === '') {
+            Alert.alert(
+                'Invalid device\'s name',
+                'Please enter device\'s name',
+                [{ text: 'OK', style: 'cancel' }]
+            )
+            return
+        }
+
         for (const deviceCard of cards) {
-            if (deviceCard.deviceType === deviceInform.deviceType) {
+            if (deviceCard.deviceType === deviceInform) {
                 Alert.alert(
                     'Duplicated device',
                     'This device had already been installed',
@@ -75,8 +99,20 @@ const DeviceScreen = props => {
         setIsAddMode(false)
     }
 
+    const removeDeviceHandler = deviceName => {
+        setCards(cards.filter(deviceInform => deviceInform.deviceType != deviceName))
+    }
+
+    const removeAllDeviceHandler = () => {
+        setCards([])
+    }
+
     const cancelAddNewLightCardHandler = () => {
         setIsAddMode(false)
+    }
+
+    const cancelRemoveDeviceModalHandler = () => {
+        setIsRemoveMode(false)
     }
 
     const renderListItem = (
@@ -154,22 +190,35 @@ const DeviceScreen = props => {
                 </View>
                 <View style={styles.buttonContainer}>
                     <NormalButton
-                        buttonStyle={styles.addNewLightButton}
-                        buttonTextStyle={styles.addNewLightButtonText}
+                        buttonStyle={styles.manageDeviceCardButton}
+                        buttonTextStyle={styles.manageDeviceCardButtonText}
                         buttonName='Add'
                         onPress={openAddModeHandler}
                     />
                     <NormalButton
-                        buttonStyle={styles.addNewLightButton}
-                        buttonTextStyle={styles.addNewLightButtonText}
+                        buttonStyle={styles.manageDeviceCardButton}
+                        buttonTextStyle={styles.manageDeviceCardButtonText}
                         buttonName='Remove'
-                        onPress={() => { }} //TODO: Finish remove list of cards
+                        onPress={openRemoveModeHandler}
+                    />
+                    <NormalButton
+                        buttonStyle={styles.manageDeviceCardButton}
+                        buttonTextStyle={styles.manageDeviceCardButtonText}
+                        buttonName='Remove all'
+                        onPress={removeAllDeviceHandler}
                     />
                 </View>
                 <AddNewDeviceModal
                     visible={isAddMode}
                     onConfirm={addNewLightCardHandler}
                     onCancel={cancelAddNewLightCardHandler}
+                />
+                <RemoveDeviceModal
+                    visible={isRemoveMode}
+                    deviceList={cards}
+                    onRemove={removeDeviceHandler}
+                    onRemoveAll={removeAllDeviceHandler}
+                    onCancel={cancelRemoveDeviceModalHandler}
                 />
             </View>
         </ImageBackground>
@@ -214,12 +263,12 @@ const styles = StyleSheet.create({
 
     buttonContainer: {
         flexDirection: "row",
-        width: '60%',
+        width: '65%',
         justifyContent: "space-between"
 
     },
 
-    addNewLightButton: {
+    manageDeviceCardButton: {
         height: 70,
         width: 70,
         backgroundColor: Colors.backgroundColor1,
@@ -227,7 +276,7 @@ const styles = StyleSheet.create({
         padding: 0,
     },
 
-    addNewLightButtonText: {
+    manageDeviceCardButtonText: {
         color: Colors.fontColor1
     }
 })

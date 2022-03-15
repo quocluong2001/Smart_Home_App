@@ -32,10 +32,10 @@ const AddNewDeviceModal = props => {
                         autoCapitalize='none'
                         autoCorrect={false}
                         textAlign='left'
-                        containerStyle={styles.usernameInputContainer}
+                        containerStyle={styles.deviceNameInputContainer}
                         keyboardType='email-address'
                         onChangeText={deviceInformInputHandler}
-                        value={deviceInform.deviceType}
+                        value={deviceInform}
                     />
                     <NormalButton
                         buttonName='Confirm'
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
 
-    usernameInputContainer: {
+    deviceNameInputContainer: {
         width: 272,
         height: 45,
     },
