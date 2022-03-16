@@ -1,15 +1,12 @@
 import { React, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import AppLoading from 'expo-app-loading';
+import { enableScreens } from 'react-native-screens'
 
 import fetchFonts from './utils/fetchFonts';
-import TestScreen from './screens/TestScreen';
-import LoginScreen from './screens/LoginScreen';
-import HomeScreen from './screens/HomeScreen';
-import RoomScreen from './screens/RoomScreen';
-import LightScreen from './screens/LightScreen';
-import DoorScreen from './screens/DoorScreen';
-import FanScreen from './screens/FanScreen';
+import MainNavigator from './navigations/MainNavigator';
+
+enableScreens()
 
 const useFonts = async () => {
   await fetchFonts()
@@ -33,7 +30,7 @@ export default function App() {
   //! Done load data
 
   return (
-    <LightScreen/>
+    <MainNavigator/>
   );
 }
 

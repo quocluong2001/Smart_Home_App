@@ -15,6 +15,7 @@ import NormalButton from "../components/NormalButton";
 import useForceUpdate from "../custom_hooks/useForceUpdate";
 import AddNewDeviceModal from "../components/AddNewDeviceModal";
 import RemoveDeviceModal from "../components/RemoveDeviceModal";
+import BodyText from "../components/BodyText";
 
 const DeviceScreen = props => {
     const [cards, setCards] = useState([])
@@ -47,7 +48,7 @@ const DeviceScreen = props => {
     }
 
     const button2Handler = () => {
-        
+
     }
 
     const openAddModeHandler = () => {
@@ -63,7 +64,7 @@ const DeviceScreen = props => {
             )
             return
         }
-        
+
         setIsRemoveMode(true)
     }
 
@@ -116,8 +117,7 @@ const DeviceScreen = props => {
     }
 
     const renderListItem = (
-        deviceType,
-        state,
+        itemData,
         button0Handler,
         button1Handler,
         button2Handler
@@ -125,9 +125,9 @@ const DeviceScreen = props => {
         if (numOfButtonsCard === '2') {
             return (
                 <TwoButtonDeviceCard
-                    deviceType={deviceType}
+                    deviceType={itemData.item.deviceType}
                     source={props.deviceImage}
-                    state={state}
+                    state={itemData.item.visibleState}
                     button0Name={props.cardButton0Title}
                     button1Name={props.cardButton1Title}
                     onPressButton0={button0Handler}
@@ -136,16 +136,16 @@ const DeviceScreen = props => {
                     button0TextStyle={styles.buttonText}
                     button1Style={styles.button1}
                     button1TextStyle={styles.buttonText}
-                    style={{marginVertical: 10}}
+                    style={{ marginVertical: 10 }}
                 />
             )
         }
         else if (numOfButtonsCard === '3') {
             return (
                 <ThreeButtonDeviceCard
-                    deviceType={deviceType}
+                    deviceType={itemData.item.deviceType}
                     source={props.deviceImage}
-                    state={state}
+                    state={itemData.item.visibleState}
                     button0Name={props.cardButton0Title}
                     button1Name={props.cardButton1Title}
                     button2Name={props.cardButton2Title}
@@ -158,10 +158,25 @@ const DeviceScreen = props => {
                     button1TextStyle={styles.buttonText}
                     button2Style={styles.button2}
                     button2TextStyle={styles.buttonText}
-                    style={{marginVertical: 10}}
+                    style={{ marginVertical: 10 }}
                 />
             )
         }
+    }
+
+    let informationCard
+
+    if (props.informationCard) {
+        informationCard = (
+            <View style={styles.informationCard}>
+                <BodyText style={styles.informationTitleStyle}>
+                    {props.informationTitle}
+                </BodyText>
+                <BodyText style={styles.informationTextStyle}>
+                    <BodyText style={{color: Colors.fontColor5}}>{props.informationValue}</BodyText> {props.informationUnit}
+                </BodyText>
+            </View>
+        )
     }
 
     return (
@@ -171,16 +186,16 @@ const DeviceScreen = props => {
             style={styles.backgroundImage}
         >
             <View style={styles.screen}>
-                <Header>
+                {/* <Header>
                     {props.headerText}
-                </Header>
+                </Header> */}
+                {informationCard}
                 <View style={styles.listContainer}>
                     <FlatList
                         contentContainerStyle={styles.list}
                         data={cards}
                         renderItem={itemData => renderListItem(
-                            itemData.item.deviceType,
-                            itemData.item.visibleState,
+                            itemData,
                             () => button0Handler(itemData.item.deviceType),
                             () => button1Handler(itemData.item.deviceType),
                             () => button2Handler()
@@ -277,6 +292,27 @@ const styles = StyleSheet.create({
     },
 
     manageDeviceCardButtonText: {
+        color: Colors.fontColor1
+    },
+
+    informationCard: {
+        backgroundColor: Colors.backgroundColor1,
+        marginVertical: 10,
+        width: 180,
+        height: 87,
+        alignItems: "center",
+        justifyContent: "space-between",
+        borderRadius: 24,
+        padding: 15
+    },
+
+    informationTitleStyle: {
+        fontFamily: 'roboto-bold',
+        fontSize: 20,
+        color: Colors.fontColor1
+    },
+
+    informationTextStyle: {
         color: Colors.fontColor1
     }
 })

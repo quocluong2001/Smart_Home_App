@@ -10,11 +10,15 @@ const FanScreen = props => {
             inactiveStateText='Off'
             deviceImage={require('../assets/images/Fan.png')}
             backgroundImage={require('../assets/images/Background5.png')}
-            headerText='FAN'
+            // headerText='FAN'
             numOfButtonsCard='3'
             cardButton0Title='On'
             cardButton1Title='Off'
             cardButton2Title='Set Timer'
+            informationCard={true}
+            informationTitle='Temperature'
+            informationValue='32'
+            informationUnit='Celsius'
         />
     )
 }

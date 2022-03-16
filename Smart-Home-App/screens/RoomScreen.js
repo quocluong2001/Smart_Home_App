@@ -5,7 +5,6 @@ import {
     ImageBackground
 } from 'react-native';
 
-import Header from '../components/Header'
 import DeviceButton from '../components/DeviceButton'
 
 const RoomScreen = props => {
@@ -16,31 +15,48 @@ const RoomScreen = props => {
             style={styles.backgroundImage}
         >
             <View style={styles.screen}>
-                <Header>
-                    ROOM
-                </Header>
                 <View style={styles.content}>
                     <View style={styles.buttonContainer}>
                         <DeviceButton
                             source={require('../assets/images/Light.png')}
-                            onPress={() => { }}
+                            onPress={() => {
+                                props.navigation.navigate({
+                                    routeName: 'Light'
+                                })
+                            }}
                         />
                         <DeviceButton
                             source={require('../assets/images/Fan.png')}
-                            onPress={() => { }}
+                            onPress={() => {
+                                props.navigation.navigate({
+                                    routeName: 'Fan'
+                                })
+                            }}
                         />
                     </View>
                     <View style={styles.buttonContainer}>
                         <DeviceButton
                             source={require('../assets/images/Door.png')}
                             buttonStyle={styles.doorButton}
-                            onPress={() => { }}
+                            onPress={() => {
+                                props.navigation.navigate({
+                                    routeName: 'Door'
+                                })
+                            }}
                         />
                     </View>
                 </View>
             </View>
         </ImageBackground>
     )
+}
+
+RoomScreen.navigationOptions = navigationData => {
+    const roomName = navigationData.navigation.getParam('roomName')
+
+    return {
+        headerTitle: roomName
+    }
 }
 
 const styles = StyleSheet.create({
@@ -61,7 +77,7 @@ const styles = StyleSheet.create({
     },
 
     buttonContainer: {
-        height: '45%',
+        height: '48%',
         marginHorizontal: 10,
         justifyContent: "space-between",
     },

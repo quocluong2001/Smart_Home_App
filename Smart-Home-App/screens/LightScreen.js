@@ -10,7 +10,7 @@ const LightScreen = props => {
             inactiveStateText='Off'
             deviceImage={require('../assets/images/Light.png')}
             backgroundImage={require('../assets/images/Background1.png')}
-            headerText='LIGHT'
+            // headerText='LIGHT'
             numOfButtonsCard='2'
             cardButton0Title='On'
             cardButton1Title='Off'

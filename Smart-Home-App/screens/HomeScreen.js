@@ -1,9 +1,10 @@
 import React from "react";
 import { View, StyleSheet, ImageBackground } from 'react-native';
 
-import Header from "../components/Header";
 import RoomButton from "../components/RoomButton";
+import { ROOMS } from "../data/testData";
 
+//!TODO: create flatlist to render room buttons
 const HomeScreen = props => {
     return (
         <ImageBackground
@@ -12,14 +13,18 @@ const HomeScreen = props => {
             style={styles.backgroundImage}
         >
             <View style={styles.screen}>
-                <Header>
-                    HOME
-                </Header>
                 <View style={{...styles.buttonContainer, marginTop: 40}}>
                     <RoomButton
                         source={require('../assets/images/Bedroom.png')}
                         roomName='Bedroom'
-                        onPress={() => { }}
+                        onPress={() => {
+                            props.navigation.navigate({
+                                routeName: 'Room',
+                                params: {
+                                    roomName: 'Bedroom'
+                                }
+                            })
+                        }}
                     />
                     <RoomButton
                         source={require('../assets/images/Livingroom.png')}

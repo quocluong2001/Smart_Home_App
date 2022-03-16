@@ -10,7 +10,7 @@ const DoorScreen = props => {
             inactiveStateText='Closed'
             deviceImage={require('../assets/images/Door.png')}
             backgroundImage={require('../assets/images/Background2.png')}
-            headerText='DOOR'
+            // headerText='DOOR'
             numOfButtonsCard='2'
             cardButton0Title='Open'
             cardButton1Title='Close'
