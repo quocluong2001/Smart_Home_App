@@ -6,8 +6,18 @@ import {
 } from 'react-native';
 
 import DeviceButton from '../components/DeviceButton'
+import { DEVICES } from "../data/testData";
 
 const RoomScreen = props => {
+    const roomId = props.navigation.getParam('roomId')
+
+    const lightsInfo = DEVICES.filter(device => device.roomId === roomId && device.type === 'light')
+    console.log(lightsInfo)
+
+    const doorsInfo = DEVICES.filter(device => device.roomId === roomId && device.type === 'door')
+
+    const fansInfo = DEVICES.filter(device => device.roomId === roomId && device.type === 'fan')
+
     return (
         <ImageBackground
             source={require('../assets/images/Background3.png')}
@@ -21,7 +31,10 @@ const RoomScreen = props => {
                             source={require('../assets/images/Light.png')}
                             onPress={() => {
                                 props.navigation.navigate({
-                                    routeName: 'Light'
+                                    routeName: 'Light',
+                                    params: {
+                                        lightsInfo: lightsInfo
+                                    }
                                 })
                             }}
                         />
@@ -29,7 +42,10 @@ const RoomScreen = props => {
                             source={require('../assets/images/Fan.png')}
                             onPress={() => {
                                 props.navigation.navigate({
-                                    routeName: 'Fan'
+                                    routeName: 'Fan',
+                                    params: {
+                                        fansInfo: fansInfo
+                                    }
                                 })
                             }}
                         />
@@ -40,7 +56,10 @@ const RoomScreen = props => {
                             buttonStyle={styles.doorButton}
                             onPress={() => {
                                 props.navigation.navigate({
-                                    routeName: 'Door'
+                                    routeName: 'Door',
+                                    params: {
+                                        doorsInfo: doorsInfo
+                                    }
                                 })
                             }}
                         />

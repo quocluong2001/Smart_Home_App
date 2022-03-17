@@ -1,11 +1,31 @@
 import React from "react";
-import { View, StyleSheet, ImageBackground } from 'react-native';
+import { View, StyleSheet, ImageBackground, FlatList } from 'react-native';
 
 import RoomButton from "../components/RoomButton";
 import { ROOMS } from "../data/testData";
 
-//!TODO: create flatlist to render room buttons
 const HomeScreen = props => {
+    const roomsInfo = ROOMS
+
+    const renderRoomItems = itemData => {
+        return (
+            <RoomButton
+                buttonStyle={styles.roomItem}
+                source={itemData.item.imageSource}
+                roomName={itemData.item.name}
+                onPress={() => {
+                    props.navigation.navigate({
+                        routeName: 'Room',
+                        params: {
+                            roomName: itemData.item.name,
+                            roomId: itemData.item.id
+                        }
+                    })
+                }}
+            />
+        )
+    }
+
     return (
         <ImageBackground
             source={require('../assets/images/Background4.png')}
@@ -13,47 +33,13 @@ const HomeScreen = props => {
             style={styles.backgroundImage}
         >
             <View style={styles.screen}>
-                <View style={{...styles.buttonContainer, marginTop: 40}}>
-                    <RoomButton
-                        source={require('../assets/images/Bedroom.png')}
-                        roomName='Bedroom'
-                        onPress={() => {
-                            props.navigation.navigate({
-                                routeName: 'Room',
-                                params: {
-                                    roomName: 'Bedroom'
-                                }
-                            })
-                        }}
-                    />
-                    <RoomButton
-                        source={require('../assets/images/Livingroom.png')}
-                        roomName='Livingroom'
-                        onPress={() => { }}
-                    />
-                </View>
-                <View style={{...styles.buttonContainer, marginVertical: 40}}>
-                    <RoomButton
-                        source={require('../assets/images/Kitchen.png')}
-                        roomName='Kitchen'
-                        onPress={() => { }}
-                    />
-                    <RoomButton
-                        source={require('../assets/images/Bathroom.png')}
-                        roomName='Bathroom'
-                        onPress={() => { }}
-                    />
-                </View>
-                <View style={styles.buttonContainer}>
-                    <RoomButton
-                        source={require('../assets/images/Garden.png')}
-                        roomName='Garden'
-                        onPress={() => { }}
-                    />
-                    <RoomButton
-                        source={require('../assets/images/Balcony.png')}
-                        roomName='Balcony'
-                        onPress={() => { }}
+                <View style={styles.listContainer}>
+                    <FlatList
+                        contentContainerStyle={styles.list}
+                        numColumns={2}
+                        data={roomsInfo}
+                        renderItem={itemData => renderRoomItems(itemData)}
+                        keyExtractor={item => item.id}
                     />
                 </View>
             </View>
@@ -72,12 +58,19 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
 
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: "space-between",
-        alignItems: "center",
-        width: '85%'
+    listContainer: {
+        flex: 1,
+        marginTop: 50
     },
+
+    list: {
+        flexGrow: 1,
+    },
+
+    roomItem: {
+        marginHorizontal: 10,
+        marginBottom: 10,
+    }
 })
 
 export default HomeScreen

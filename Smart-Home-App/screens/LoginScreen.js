@@ -33,7 +33,9 @@ const LoginScreen = props => {
                             Home App
                         </TitleText>
                     </View>
-                    <LoginCard />
+                    <LoginCard onLogin={() => {
+                        props.navigation.replace('Home')
+                    }}/>
                 </KeyboardAvoidingView>
             </TouchableWithoutFeedback>
         </ScrollView>

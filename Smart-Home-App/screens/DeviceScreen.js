@@ -7,7 +7,6 @@ import {
     Alert
 } from 'react-native';
 
-import Header from '../components/Header'
 import TwoButtonDeviceCard from "../components/TwoButtonDeviceCard";
 import ThreeButtonDeviceCard from "../components/ThreeButtonDeviceCard";
 import Colors from "../constants/Colors";
@@ -18,7 +17,8 @@ import RemoveDeviceModal from "../components/RemoveDeviceModal";
 import BodyText from "../components/BodyText";
 
 const DeviceScreen = props => {
-    const [cards, setCards] = useState([])
+    const devicesInfo = props.data
+    const [cards, setCards] = useState(devicesInfo)
     const [isAddMode, setIsAddMode] = useState(false)
     const [isRemoveMode, setIsRemoveMode] = useState(false)
     const activeStateText = props.activeStateText
@@ -186,9 +186,6 @@ const DeviceScreen = props => {
             style={styles.backgroundImage}
         >
             <View style={styles.screen}>
-                {/* <Header>
-                    {props.headerText}
-                </Header> */}
                 {informationCard}
                 <View style={styles.listContainer}>
                     <FlatList

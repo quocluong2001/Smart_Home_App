@@ -1,6 +1,7 @@
 import { createStackNavigator, HeaderBackground } from "react-navigation-stack";
 import { createAppContainer} from "react-navigation";
 
+import LoginScreen from "../screens/LoginScreen"
 import HomeScreen from "../screens/HomeScreen";
 import RoomScreen from "../screens/RoomScreen";
 import LightScreen from "../screens/LightScreen";
@@ -10,6 +11,12 @@ import Colors from "../constants/Colors";
 
 const MainNavigator = createStackNavigator(
     {
+        Login: {
+            screen: LoginScreen,
+            navigationOptions: {
+                headerShown: false,
+            }
+        },
         Home: {
             screen: HomeScreen
         },
