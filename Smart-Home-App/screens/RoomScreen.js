@@ -10,12 +10,8 @@ import { DEVICES } from "../data/testData";
 
 const RoomScreen = props => {
     const roomId = props.navigation.getParam('roomId')
-
     const lightsInfo = DEVICES.filter(device => device.roomId === roomId && device.type === 'light')
-    console.log(lightsInfo)
-
     const doorsInfo = DEVICES.filter(device => device.roomId === roomId && device.type === 'door')
-
     const fansInfo = DEVICES.filter(device => device.roomId === roomId && device.type === 'fan')
 
     return (
