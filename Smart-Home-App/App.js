@@ -1,10 +1,9 @@
 import { React, useState } from 'react';
-import { StyleSheet } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { enableScreens } from 'react-native-screens'
 
 import fetchFonts from './utils/fetchFonts';
-import MainNavigator from './navigations/MainNavigator';
+import MainNavigator from './navigations/MainNavigator'
 
 enableScreens()
 
@@ -33,7 +32,3 @@ export default function App() {
     <MainNavigator/>
   );
 }
-
-const styles = StyleSheet.create({
-
-});

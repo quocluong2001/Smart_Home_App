@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet } from 'react-native'
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import DeviceScreen from "./DeviceScreen";
+import CustomHeaderButton from "../components/CustomHeaderComponent";
 
 const DoorScreen = props => {
     const doorsInfo = props.navigation.getParam('doorsInfo')
@@ -27,8 +28,20 @@ const DoorScreen = props => {
     )
 }
 
-const styles = StyleSheet.create({
-
-})
+DoorScreen.navigationOptions = navData => {
+    return {
+        headerRight: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                    <Item
+                        title="Favorite"
+                        iconName="ios-star"
+                        onPress={() => { }}
+                    />
+                </HeaderButtons>
+            )
+        }
+    }
+}
 
 export default DoorScreen

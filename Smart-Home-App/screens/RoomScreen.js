@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     },
 
     buttonContainer: {
-        height: '48%',
+        height: '51%',
         marginHorizontal: 10,
         justifyContent: "space-between",
     },
