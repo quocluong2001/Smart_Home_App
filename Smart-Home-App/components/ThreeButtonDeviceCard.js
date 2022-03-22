@@ -4,7 +4,8 @@ import {
     StyleSheet,
     Image,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    Switch
 } from 'react-native';
 
 import BodyText from './BodyText';
@@ -14,7 +15,7 @@ import Colors from '../constants/Colors';
 const ThreeButtonDeviceCard = props => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={{...styles.container, ...props.style}}>
+            <View style={{ ...styles.container, ...props.style }}>
                 <View style={styles.textContainer}>
                     <BodyText style={styles.deviceTypeText}>
                         {props.deviceType}
@@ -36,41 +37,22 @@ const ThreeButtonDeviceCard = props => {
                         </View>
                     </View>
                     <View style={styles.buttonContainer}>
-                        <NormalButton
-                            buttonStyle={{
-                                ...styles.button0,
-                                ...props.button0Style
-                            }}
-                            buttonTextStyle={{
-                                ...styles.button0Text,
-                                ...props.button0TextStyle
-                            }}
-                            buttonName={props.button0Name}
-                            onPress={props.onPressButton0}
+                        <Switch
+                            style={styles.switch}
+                            value={props.switchValue}
+                            onValueChange={props.onValueChange}
                         />
                         <NormalButton
                             buttonStyle={{
-                                ...styles.button1,
-                                ...props.button1Style
+                                ...styles.button,
+                                ...props.buttonStyle
                             }}
                             buttonTextStyle={{
-                                ...styles.button1Text,
-                                ...props.button1TextStyle
+                                ...styles.buttonText,
+                                ...props.buttonTextStyle
                             }}
-                            buttonName={props.button1Name}
-                            onPress={props.onPressButton1}
-                        />
-                        <NormalButton
-                            buttonStyle={{
-                                ...styles.button2,
-                                ...props.button2Style
-                            }}
-                            buttonTextStyle={{
-                                ...styles.button2Text,
-                                ...props.button2TextStyle
-                            }}
-                            buttonName={props.button2Name}
-                            onPress={props.onPressButton2}
+                            buttonName={props.buttonName}
+                            onPress={props.onPressButton}
                         />
                     </View>
                 </View>
@@ -86,8 +68,6 @@ const styles = StyleSheet.create({
         width: 300,
         height: 190,
         backgroundColor: Colors.backgroundColor1,
-        paddingVertical: 10,
-        paddingHorizontal: 15,
         borderRadius: 24,
     },
 
@@ -114,8 +94,8 @@ const styles = StyleSheet.create({
     },
 
     imageContainer: {
-        width: 90,
-        height: 90,
+        width: 100,
+        height: 100,
     },
 
     image: {
@@ -141,36 +121,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         width: '50%',
-        height: '82%',
+        height: '60%',
     },
 
-    button0: {
+    switch: {
+        transform: [{ scaleX: 2 }, { scaleY: 2 }]
+    },
+
+    button: {
         borderRadius: 12,
         width: 108,
-        height: 37
+        height: 37,
+        marginTop: 10,
     },
 
-    button0Text: {
-        color: 'black'
-    },
-
-    button1: {
-        borderRadius: 12,
-        width: 108,
-        height: 37
-    },
-
-    button1Text: {
-        color: 'black'
-    },
-
-    button2: {
-        borderRadius: 12,
-        width: 108,
-        height: 37
-    },
-
-    button2Text: {
+    buttonText: {
         color: 'black'
     },
 })

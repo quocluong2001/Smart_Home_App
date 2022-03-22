@@ -4,18 +4,18 @@ import {
     StyleSheet,
     Image,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    Switch
 } from 'react-native';
 
 import BodyText from './BodyText';
-import NormalButton from './NormalButton';
 
 import Colors from '../constants/Colors';
 
 const TwoButtonDeviceCard = props => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={{...styles.container, ...props.style}}>
+            <View style={{ ...styles.container, ...props.style }}>
                 <View style={styles.textContainer}>
                     <BodyText style={styles.deviceTypeText}>
                         {props.deviceType}
@@ -30,37 +30,18 @@ const TwoButtonDeviceCard = props => {
                                 style={styles.image}
                             />
                         </View>
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <Switch
+                            style={styles.switch}
+                            value={props.switchValue}
+                            onValueChange={props.onValueChange}
+                        />
                         <View style={styles.stateContainer}>
                             <BodyText style={styles.state}>
                                 {props.state}
                             </BodyText>
                         </View>
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <NormalButton
-                            buttonStyle={{
-                                ...styles.button0,
-                                ...props.button0Style
-                            }}
-                            buttonTextStyle={{
-                                ...styles.button0Text,
-                                ...props.button0TextStyle
-                            }}
-                            buttonName={props.button0Name}
-                            onPress={props.onPressButton0}
-                        />
-                        <NormalButton
-                            buttonStyle={{
-                                ...styles.button1,
-                                ...props.button1Style
-                            }}
-                            buttonTextStyle={{
-                                ...styles.button1Text,
-                                ...props.button1TextStyle
-                            }}
-                            buttonName={props.button1Name}
-                            onPress={props.onPressButton1}
-                        />
                     </View>
                 </View>
             </View>
@@ -72,11 +53,9 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         justifyContent: 'center',
-        width: 300,
-        height: 190,
+        width: 260,
+        height: 150,
         backgroundColor: Colors.backgroundColor1,
-        paddingVertical: 10,
-        paddingHorizontal: 15,
         borderRadius: 24,
     },
 
@@ -103,8 +82,8 @@ const styles = StyleSheet.create({
     },
 
     imageContainer: {
-        width: 90,
-        height: 90,
+        width: 100,
+        height: 100,
     },
 
     image: {
@@ -120,6 +99,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 24,
         backgroundColor: Colors.backgroundColor1,
+        marginTop: 5,
     },
 
     state: {
@@ -128,30 +108,14 @@ const styles = StyleSheet.create({
 
     buttonContainer: {
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         width: '50%',
         height: '62%',
     },
 
-    button0: {
-        borderRadius: 12,
-        width: 108,
-        height: 37
-    },
-
-    button0Text: {
-        color: 'black'
-    },
-
-    button1: {
-        borderRadius: 12,
-        width: 108,
-        height: 37
-    },
-
-    button1Text: {
-        color: 'black'
-    },
+    switch: {
+        transform: [{ scaleX: 2 }, { scaleY: 2 }]
+    }
 })
 
 export default TwoButtonDeviceCard

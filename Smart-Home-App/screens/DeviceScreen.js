@@ -27,9 +27,13 @@ const DeviceScreen = props => {
 
     const forceUpdate = useForceUpdate()
 
-    const button0Handler = deviceType => {
+    const switchHandler = deviceType => {
         for (const deviceCard of cards) {
-            if (deviceType === deviceCard.deviceType) {
+            if (deviceType === deviceCard.deviceType && deviceCard.state === true) {
+                deviceCard.state = false
+                deviceCard.visibleState = inactiveStateText
+            }
+            else if (deviceType === deviceCard.deviceType && deviceCard.state === false) {
                 deviceCard.state = true
                 deviceCard.visibleState = activeStateText
             }
@@ -37,17 +41,7 @@ const DeviceScreen = props => {
         forceUpdate()
     }
 
-    const button1Handler = deviceType => {
-        for (const deviceCard of cards) {
-            if (deviceType === deviceCard.deviceType) {
-                deviceCard.state = false
-                deviceCard.visibleState = inactiveStateText
-            }
-        }
-        forceUpdate()
-    }
-
-    const button2Handler = () => {
+    const buttonHandler = () => {
 
     }
 
@@ -118,9 +112,8 @@ const DeviceScreen = props => {
 
     const renderListItem = (
         itemData,
-        button0Handler,
-        button1Handler,
-        button2Handler
+        switchHandler,
+        buttonHandler
     ) => {
         if (numOfButtonsCard === '2') {
             return (
@@ -128,14 +121,8 @@ const DeviceScreen = props => {
                     deviceType={itemData.item.deviceType}
                     source={props.deviceImage}
                     state={itemData.item.visibleState}
-                    button0Name={props.cardButton0Title}
-                    button1Name={props.cardButton1Title}
-                    onPressButton0={button0Handler}
-                    onPressButton1={button1Handler}
-                    button0Style={styles.button0}
-                    button0TextStyle={styles.buttonText}
-                    button1Style={styles.button1}
-                    button1TextStyle={styles.buttonText}
+                    switchValue={itemData.item.state}
+                    onValueChange={switchHandler}
                     style={{ marginVertical: 10 }}
                 />
             )
@@ -146,18 +133,12 @@ const DeviceScreen = props => {
                     deviceType={itemData.item.deviceType}
                     source={props.deviceImage}
                     state={itemData.item.visibleState}
-                    button0Name={props.cardButton0Title}
-                    button1Name={props.cardButton1Title}
-                    button2Name={props.cardButton2Title}
-                    onPressButton0={button0Handler}
-                    onPressButton1={button1Handler}
-                    onPressButton2={button2Handler}
-                    button0Style={styles.button0}
-                    button0TextStyle={styles.buttonText}
-                    button1Style={styles.button1}
-                    button1TextStyle={styles.buttonText}
-                    button2Style={styles.button2}
-                    button2TextStyle={styles.buttonText}
+                    switchValue={itemData.item.state}
+                    onValueChange={switchHandler}
+                    buttonName='Set timer'
+                    buttonStyle={styles.button}
+                    buttonTextStyle={styles.buttonText}
+                    onPressButton={buttonHandler}
                     style={{ marginVertical: 10 }}
                 />
             )
@@ -173,7 +154,11 @@ const DeviceScreen = props => {
                     {props.informationTitle}
                 </BodyText>
                 <BodyText style={styles.informationTextStyle}>
-                    <BodyText style={{color: Colors.fontColor5}}>{props.informationValue}</BodyText> {props.informationUnit}
+                    <BodyText
+                        style={{ color: Colors.fontColor5 }}
+                    >
+                        {props.informationValue}
+                    </BodyText> {props.informationUnit}
                 </BodyText>
             </View>
         )
@@ -193,9 +178,8 @@ const DeviceScreen = props => {
                         data={cards}
                         renderItem={itemData => renderListItem(
                             itemData,
-                            () => button0Handler(itemData.item.deviceType),
-                            () => button1Handler(itemData.item.deviceType),
-                            () => button2Handler()
+                            () => switchHandler(itemData.item.deviceType),
+                            () => buttonHandler(() => { })
                         )}
                         keyExtractor={itemData => itemData.deviceType}
                     />
@@ -257,15 +241,7 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
     },
 
-    button0: {
-        backgroundColor: Colors.buttonColor2,
-    },
-
-    button1: {
-        backgroundColor: Colors.buttonColor1,
-    },
-
-    button2: {
+    button: {
         backgroundColor: Colors.buttonColor3,
     },
 

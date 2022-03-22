@@ -1,4 +1,4 @@
-import { createStackNavigator, HeaderBackground } from "react-navigation-stack";
+import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer} from "react-navigation";
 
 import LoginScreen from "../screens/LoginScreen"
@@ -41,7 +41,7 @@ const MainNavigator = createStackNavigator(
                 fontSize: 30
             },
             headerStyle: {
-                backgroundColor: Colors.backgroundColor3
+                backgroundColor: Colors.backgroundColor3,
             },
             headerTitleAlign: "center"
         }
