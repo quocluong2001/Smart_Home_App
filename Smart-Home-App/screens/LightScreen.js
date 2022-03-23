@@ -1,8 +1,6 @@
 import React from "react";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import DeviceScreen from "./DeviceScreen";
-import CustomHeaderButton from "../components/CustomHeaderComponent";
 
 const LightScreen = props => {
     const lightsInfo = props.navigation.getParam('lightsInfo')
@@ -26,22 +24,6 @@ const LightScreen = props => {
             data={lightsData}
         />
     )
-}
-
-LightScreen.navigationOptions = navData => {
-    return {
-        headerRight: () => {
-            return (
-                <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                    <Item
-                        title="Favorite"
-                        iconName="ios-star"
-                        onPress={() => { }}
-                    />
-                </HeaderButtons>
-            )
-        }
-    }
 }
 
 export default LightScreen

@@ -1,18 +1,47 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import {
     View,
     StyleSheet,
     ImageBackground
 } from 'react-native';
+import { useSelector, useDispatch } from "react-redux";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import DeviceButton from '../components/DeviceButton'
-import { DEVICES } from "../data/testData";
+import CustomHeaderButton from "../components/CustomHeaderComponent";
+import { toggleFav } from "../store/actions/room";
+import { selectDevicesInfo } from "../store/selectors/selectDevicesInfoByRoomIdAndType";
 
 const RoomScreen = props => {
     const roomId = props.navigation.getParam('roomId')
-    const lightsInfo = DEVICES.filter(device => device.roomId === roomId && device.type === 'light')
-    const doorsInfo = DEVICES.filter(device => device.roomId === roomId && device.type === 'door')
-    const fansInfo = DEVICES.filter(device => device.roomId === roomId && device.type === 'fan')
+
+    const lightsInfo = useSelector(selectDevicesInfo(roomId, 'light'))
+
+    const doorsInfo = useSelector(selectDevicesInfo(roomId, 'door'))
+
+    const fansInfo = useSelector(selectDevicesInfo(roomId, 'fan'))
+
+    const isFav = useSelector(state => state.rooms.favoriteRooms.some(
+        room => room.id === roomId
+    ))
+
+    const dispatch = useDispatch()
+
+    const toggleFavoriteHandler = useCallback(() => {
+        dispatch(toggleFav(roomId))
+    }, [roomId])
+
+    useEffect(() => {
+        props.navigation.setParams({
+            toggleFav: toggleFavoriteHandler
+        })
+    }, [toggleFavoriteHandler])
+
+    useEffect(() => {
+        props.navigation.setParams({
+            isFav: isFav
+        })
+    }, [isFav])
 
     return (
         <ImageBackground
@@ -66,11 +95,24 @@ const RoomScreen = props => {
     )
 }
 
-RoomScreen.navigationOptions = navigationData => {
-    const roomName = navigationData.navigation.getParam('roomName')
+RoomScreen.navigationOptions = navData => {
+    const roomName = navData.navigation.getParam('roomName')
+    const toggleFav = navData.navigation.getParam('toggleFav')
+    const isFav = navData.navigation.getParam('isFav')
 
     return {
-        headerTitle: roomName
+        headerTitle: roomName,
+        headerRight: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                    <Item
+                        title="Favorite"
+                        iconName={isFav ? 'ios-star' : 'ios-star-outline'}
+                        onPress={toggleFav}
+                    />
+                </HeaderButtons>
+            )
+        }
     }
 }
 

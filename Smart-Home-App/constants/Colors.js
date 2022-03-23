@@ -3,6 +3,7 @@ export default {
     buttonColor1: '#5561FF',
     buttonColor2: '#7A0909',
     buttonColor3: '#FFC700',
+    buttonColor4: '#A9A9A9',
 
     backgroundColor0: '#FFFFFF',
     backgroundColor1: 'rgba(62, 64, 91, 0.8)',

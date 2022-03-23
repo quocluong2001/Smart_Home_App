@@ -41,7 +41,8 @@ const MainTabNavigator = createMaterialBottomTabNavigator({
     }
 }, {
     shifting: true,
-    activeColor: Colors.fontColor3
+    activeColor: Colors.fontColor3,
+    inactiveColor: Colors.buttonColor4,
 })
 
 export default MainTabNavigator

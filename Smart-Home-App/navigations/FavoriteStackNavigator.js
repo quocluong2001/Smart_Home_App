@@ -1,11 +1,19 @@
 import { createStackNavigator } from "react-navigation-stack";
 
-import FavoriteDeviceScreen from "../screens/FavoriteDeviceScreen";
+import FavoriteRoomScreen from "../screens/FavoriteRoomScreen";
 import { defaultHeaderOptions } from "./defaultHeaderOptions";
+import RoomStackNavigator from "./RoomStackNavigator";
+
 
 const FavoriteStackNavigator = createStackNavigator({
     Favorite: {
-        screen: FavoriteDeviceScreen
+        screen: FavoriteRoomScreen
+    },
+    Room: {
+        screen: RoomStackNavigator,
+        navigationOptions: {
+            headerShown: false
+        }
     }
 },{
     defaultNavigationOptions: defaultHeaderOptions

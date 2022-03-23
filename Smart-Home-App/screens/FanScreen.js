@@ -33,20 +33,4 @@ const FanScreen = props => {
     )
 }
 
-FanScreen.navigationOptions = navData => {
-    return {
-        headerRight: () => {
-            return (
-                <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                    <Item
-                        title="Favorite"
-                        iconName="ios-star"
-                        onPress={() => { }}
-                    />
-                </HeaderButtons>
-            )
-        }
-    }
-}
-
 export default FanScreen
