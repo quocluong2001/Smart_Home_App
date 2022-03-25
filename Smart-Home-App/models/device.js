@@ -1,6 +1,6 @@
 class Device {
-    constructor(deviceId, type, name, status) {
-        this.deviceId = deviceId
+    constructor(id, type, name, status) {
+        this.id = id
         this.type = type
         this.name = name
         this.status = status

@@ -2,148 +2,89 @@ import { React, useState } from "react";
 import {
     View,
     StyleSheet,
-    ImageBackground,
-    FlatList,
-    Alert
 } from 'react-native';
+import { useSelector, useDispatch } from "react-redux";
 
-import TwoButtonDeviceCard from "../components/TwoButtonDeviceCard";
-import ThreeButtonDeviceCard from "../components/ThreeButtonDeviceCard";
 import Colors from "../constants/Colors";
-import NormalButton from "../components/NormalButton";
+// import NormalButton from "../components/NormalButton";
 import useForceUpdate from "../custom_hooks/useForceUpdate";
-import AddNewDeviceModal from "../components/AddNewDeviceModal";
-import RemoveDeviceModal from "../components/RemoveDeviceModal";
+// import AddNewDeviceModal from "../components/AddNewDeviceModal";
+// import RemoveDeviceModal from "../components/RemoveDeviceModal";
 import BodyText from "../components/BodyText";
+import DeviceList from "../components/DeviceList";
+import { selectDevicesInfo } from "../store/selectors/selectDevicesInfoByRoomIdAndType";
 
 const DeviceScreen = props => {
-    const devicesInfo = props.data
-    const [cards, setCards] = useState(devicesInfo)
-    const [isAddMode, setIsAddMode] = useState(false)
-    const [isRemoveMode, setIsRemoveMode] = useState(false)
-    const activeStateText = props.activeStateText
-    const inactiveStateText = props.inactiveStateText
-    const numOfButtonsCard = props.numOfButtonsCard //! Accept '2' or '3' only
+    // const [isAddMode, setIsAddMode] = useState(false)
+    // const [isRemoveMode, setIsRemoveMode] = useState(false)
 
-    const forceUpdate = useForceUpdate()
+    const roomId = props.roomId
+    const devicesInfo = useSelector(selectDevicesInfo(roomId, props.deviceType))
 
-    const switchHandler = deviceType => {
-        for (const deviceCard of cards) {
-            if (deviceType === deviceCard.deviceType && deviceCard.state === true) {
-                deviceCard.state = false
-                deviceCard.visibleState = inactiveStateText
-            }
-            else if (deviceType === deviceCard.deviceType && deviceCard.state === false) {
-                deviceCard.state = true
-                deviceCard.visibleState = activeStateText
-            }
-        }
-        forceUpdate()
-    }
+    // const openAddModeHandler = () => {
+    //     setIsAddMode(true)
+    // }
 
-    const buttonHandler = () => {
+    // const openRemoveModeHandler = () => {
+    //     if (cards.length === 0) {
+    //         Alert.alert(
+    //             'There are no devices to remove',
+    //             '',
+    //             [{ text: 'OK', style: 'cancel' }]
+    //         )
+    //         return
+    //     }
 
-    }
+    //     setIsRemoveMode(true)
+    // }
 
-    const openAddModeHandler = () => {
-        setIsAddMode(true)
-    }
+    // const addNewLightCardHandler = deviceInform => {
+    //     if (deviceInform === '') {
+    //         Alert.alert(
+    //             'Invalid device\'s name',
+    //             'Please enter device\'s name',
+    //             [{ text: 'OK', style: 'cancel' }]
+    //         )
+    //         return
+    //     }
 
-    const openRemoveModeHandler = () => {
-        if (cards.length === 0) {
-            Alert.alert(
-                'There are no devices to remove',
-                '',
-                [{ text: 'OK', style: 'cancel' }]
-            )
-            return
-        }
+    //     for (const deviceCard of cards) {
+    //         if (deviceCard.deviceType === deviceInform) {
+    //             Alert.alert(
+    //                 'Duplicated device',
+    //                 'This device had already been installed',
+    //                 [{ text: 'OK', style: 'cancel' }]
+    //             )
+    //             return
+    //         }
+    //     }
 
-        setIsRemoveMode(true)
-    }
+    //     setCards([
+    //         ...cards,
+    //         {
+    //             deviceType: deviceInform,
+    //             visibleState: inactiveStateText,
+    //             state: false
+    //         }]
+    //     )
+    //     setIsAddMode(false)
+    // }
 
-    const addNewLightCardHandler = deviceInform => {
-        if (deviceInform === '') {
-            Alert.alert(
-                'Invalid device\'s name',
-                'Please enter device\'s name',
-                [{ text: 'OK', style: 'cancel' }]
-            )
-            return
-        }
+    // const removeDeviceHandler = deviceName => {
+    //     setCards(cards.filter(deviceInform => deviceInform.deviceType != deviceName))
+    // }
 
-        for (const deviceCard of cards) {
-            if (deviceCard.deviceType === deviceInform) {
-                Alert.alert(
-                    'Duplicated device',
-                    'This device had already been installed',
-                    [{ text: 'OK', style: 'cancel' }]
-                )
-                return
-            }
-        }
+    // const removeAllDeviceHandler = () => {
+    //     setCards([])
+    // }
 
-        setCards([
-            ...cards,
-            {
-                deviceType: deviceInform,
-                visibleState: inactiveStateText,
-                state: false
-            }]
-        )
-        setIsAddMode(false)
-    }
+    // const cancelAddNewLightCardHandler = () => {
+    //     setIsAddMode(false)
+    // }
 
-    const removeDeviceHandler = deviceName => {
-        setCards(cards.filter(deviceInform => deviceInform.deviceType != deviceName))
-    }
-
-    const removeAllDeviceHandler = () => {
-        setCards([])
-    }
-
-    const cancelAddNewLightCardHandler = () => {
-        setIsAddMode(false)
-    }
-
-    const cancelRemoveDeviceModalHandler = () => {
-        setIsRemoveMode(false)
-    }
-
-    const renderListItem = (
-        itemData,
-        switchHandler,
-        buttonHandler
-    ) => {
-        if (numOfButtonsCard === '2') {
-            return (
-                <TwoButtonDeviceCard
-                    deviceType={itemData.item.deviceType}
-                    source={props.deviceImage}
-                    state={itemData.item.visibleState}
-                    switchValue={itemData.item.state}
-                    onValueChange={switchHandler}
-                    style={{ marginVertical: 10 }}
-                />
-            )
-        }
-        else if (numOfButtonsCard === '3') {
-            return (
-                <ThreeButtonDeviceCard
-                    deviceType={itemData.item.deviceType}
-                    source={props.deviceImage}
-                    state={itemData.item.visibleState}
-                    switchValue={itemData.item.state}
-                    onValueChange={switchHandler}
-                    buttonName='Set timer'
-                    buttonStyle={styles.button}
-                    buttonTextStyle={styles.buttonText}
-                    onPressButton={buttonHandler}
-                    style={{ marginVertical: 10 }}
-                />
-            )
-        }
-    }
+    // const cancelRemoveDeviceModalHandler = () => {
+    //     setIsRemoveMode(false)
+    // }
 
     let informationCard
 
@@ -165,80 +106,55 @@ const DeviceScreen = props => {
     }
 
     return (
-        <ImageBackground
-            source={props.backgroundImage}
-            resizeMode="cover"
-            style={styles.backgroundImage}
-        >
-            <View style={styles.screen}>
-                {informationCard}
-                <View style={styles.listContainer}>
-                    <FlatList
-                        contentContainerStyle={styles.list}
-                        data={cards}
-                        renderItem={itemData => renderListItem(
-                            itemData,
-                            () => switchHandler(itemData.item.deviceType),
-                            () => buttonHandler(() => { })
-                        )}
-                        keyExtractor={itemData => itemData.deviceType}
-                    />
-                </View>
-                <View style={styles.buttonContainer}>
-                    <NormalButton
-                        buttonStyle={styles.manageDeviceCardButton}
-                        buttonTextStyle={styles.manageDeviceCardButtonText}
-                        buttonName='Add'
-                        onPress={openAddModeHandler}
-                    />
-                    <NormalButton
-                        buttonStyle={styles.manageDeviceCardButton}
-                        buttonTextStyle={styles.manageDeviceCardButtonText}
-                        buttonName='Remove'
-                        onPress={openRemoveModeHandler}
-                    />
-                    <NormalButton
-                        buttonStyle={styles.manageDeviceCardButton}
-                        buttonTextStyle={styles.manageDeviceCardButtonText}
-                        buttonName='Remove all'
-                        onPress={removeAllDeviceHandler}
-                    />
-                </View>
-                <AddNewDeviceModal
-                    visible={isAddMode}
-                    onConfirm={addNewLightCardHandler}
-                    onCancel={cancelAddNewLightCardHandler}
+        <View style={styles.screen}>
+            {informationCard}
+            <DeviceList
+                listData={devicesInfo}
+                numOfButtons={props.numOfButtons}
+                deviceImage={props.deviceImage}
+                activeStateText={props.activeStateText}
+                inactiveStateText={props.inactiveStateText}
+            />
+            {/* <View style={styles.buttonContainer}>
+                <NormalButton
+                    buttonStyle={styles.manageDeviceCardButton}
+                    buttonTextStyle={styles.manageDeviceCardButtonText}
+                    buttonName='Add'
+                    onPress={openAddModeHandler}
                 />
-                <RemoveDeviceModal
-                    visible={isRemoveMode}
-                    deviceList={cards}
-                    onRemove={removeDeviceHandler}
-                    onRemoveAll={removeAllDeviceHandler}
-                    onCancel={cancelRemoveDeviceModalHandler}
+                <NormalButton
+                    buttonStyle={styles.manageDeviceCardButton}
+                    buttonTextStyle={styles.manageDeviceCardButtonText}
+                    buttonName='Remove'
+                    onPress={openRemoveModeHandler}
                 />
-            </View>
-        </ImageBackground>
+                <NormalButton
+                    buttonStyle={styles.manageDeviceCardButton}
+                    buttonTextStyle={styles.manageDeviceCardButtonText}
+                    buttonName='Remove all'
+                    onPress={removeAllDeviceHandler}
+                />
+            </View> */}
+            {/* <AddNewDeviceModal
+                visible={isAddMode}
+                onConfirm={addNewLightCardHandler}
+                onCancel={cancelAddNewLightCardHandler}
+            />
+            <RemoveDeviceModal
+                visible={isRemoveMode}
+                deviceList={cards}
+                onRemove={removeDeviceHandler}
+                onRemoveAll={removeAllDeviceHandler}
+                onCancel={cancelRemoveDeviceModalHandler}
+            /> */}
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    backgroundImage: {
-        width: '100%',
-        height: '100%'
-    },
-
     screen: {
         flex: 1,
         alignItems: "center",
-    },
-
-    listContainer: {
-        flex: 1,
-    },
-
-    list: {
-        flexGrow: 1,
-        justifyContent: "flex-start",
     },
 
     button: {
@@ -249,24 +165,24 @@ const styles = StyleSheet.create({
         color: Colors.fontColor1
     },
 
-    buttonContainer: {
-        flexDirection: "row",
-        width: '65%',
-        justifyContent: "space-between"
+    // buttonContainer: {
+    //     flexDirection: "row",
+    //     width: '65%',
+    //     justifyContent: "space-between"
 
-    },
+    // },
 
-    manageDeviceCardButton: {
-        height: 70,
-        width: 70,
-        backgroundColor: Colors.backgroundColor1,
-        marginBottom: 10,
-        padding: 0,
-    },
+    // manageDeviceCardButton: {
+    //     height: 70,
+    //     width: 70,
+    //     backgroundColor: Colors.backgroundColor1,
+    //     marginBottom: 10,
+    //     padding: 0,
+    // },
 
-    manageDeviceCardButtonText: {
-        color: Colors.fontColor1
-    },
+    // manageDeviceCardButtonText: {
+    //     color: Colors.fontColor1
+    // },
 
     informationCard: {
         backgroundColor: Colors.backgroundColor1,

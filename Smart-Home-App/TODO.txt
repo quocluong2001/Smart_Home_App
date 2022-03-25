@@ -1,0 +1,1 @@
+Finish using redux data for device screen

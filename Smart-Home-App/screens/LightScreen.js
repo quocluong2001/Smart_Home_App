@@ -1,29 +1,34 @@
 import React from "react";
+import { ImageBackground, StyleSheet } from "react-native";
 
 import DeviceScreen from "./DeviceScreen";
 
 const LightScreen = props => {
-    const lightsInfo = props.navigation.getParam('lightsInfo')
-    const lightsData = lightsInfo.map(device => {
-        return {
-            deviceType: device.name,
-            visibleState: 'Off',
-            state: false,
-        }
-    })
+    const roomId = props.navigation.getParam('roomId')
 
     return (
-        <DeviceScreen
-            activeStateText='On'
-            inactiveStateText='Off'
-            deviceImage={require('../assets/images/Light.png')}
-            backgroundImage={require('../assets/images/Background1.png')}
-            numOfButtonsCard='2'
-            cardButton0Title='On'
-            cardButton1Title='Off'
-            data={lightsData}
-        />
+        <ImageBackground
+            source={require('../assets/images/Background1.png')}
+            resizeMode="cover"
+            style={styles.backgroundImage}
+        >
+            <DeviceScreen  
+                roomId={roomId}
+                deviceType='light'
+                deviceImage={require('../assets/images/Light.png')}
+                numOfButtons='1'
+                activeStateText='On'
+                inactiveStateText='Off'
+            />
+        </ImageBackground>
     )
 }
+
+const styles = StyleSheet.create({
+    backgroundImage: {
+        width: '100%',
+        height: '100%'
+    },
+})
 
 export default LightScreen

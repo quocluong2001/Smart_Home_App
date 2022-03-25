@@ -12,13 +12,23 @@ import BodyText from './BodyText';
 
 import Colors from '../constants/Colors';
 
-const TwoButtonDeviceCard = props => {
+const DeviceCard = props => {
+    let visibleState
+    if (props.switchValue === true) {
+        visibleState = props.activeStateText
+    }
+    else {
+        visibleState = props.inactiveStateText
+    }
+
+    
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{ ...styles.container, ...props.style }}>
                 <View style={styles.textContainer}>
-                    <BodyText style={styles.deviceTypeText}>
-                        {props.deviceType}
+                    <BodyText style={styles.deviceNameText}>
+                        {props.deviceName}
                     </BodyText>
                 </View>
                 <View style={styles.contentContainer}>
@@ -39,7 +49,7 @@ const TwoButtonDeviceCard = props => {
                         />
                         <View style={styles.stateContainer}>
                             <BodyText style={styles.state}>
-                                {props.state}
+                                {visibleState}
                             </BodyText>
                         </View>
                     </View>
@@ -64,7 +74,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    deviceTypeText: {
+    deviceNameText: {
         fontFamily: 'roboto-bold',
         fontSize: 20,
         textAlign: 'center',
@@ -118,4 +128,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default TwoButtonDeviceCard
+export default DeviceCard

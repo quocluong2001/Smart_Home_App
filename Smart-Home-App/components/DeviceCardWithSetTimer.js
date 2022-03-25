@@ -12,7 +12,15 @@ import BodyText from './BodyText';
 import NormalButton from './NormalButton';
 import Colors from '../constants/Colors';
 
-const ThreeButtonDeviceCard = props => {
+const DeviceCardWithSetTimer = props => {
+    let visibleState
+    if (props.switchValue === true) {
+        visibleState = props.activeStateText
+    }
+    else {
+        visibleState = props.inactiveStateText
+    }
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{ ...styles.container, ...props.style }}>
@@ -32,7 +40,7 @@ const ThreeButtonDeviceCard = props => {
                         </View>
                         <View style={styles.stateContainer}>
                             <BodyText style={styles.state}>
-                                {props.state}
+                                {visibleState}
                             </BodyText>
                         </View>
                     </View>
@@ -140,4 +148,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default ThreeButtonDeviceCard
+export default DeviceCardWithSetTimer

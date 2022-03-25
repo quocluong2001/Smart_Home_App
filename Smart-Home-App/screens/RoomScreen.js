@@ -9,13 +9,11 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import DeviceButton from '../components/DeviceButton'
 import CustomHeaderButton from "../components/CustomHeaderComponent";
-import { toggleFav } from "../store/actions/room";
+import { toggleFav } from "../store/actions/toggleFavRoom";
 import { selectDevicesInfo } from "../store/selectors/selectDevicesInfoByRoomIdAndType";
 
 const RoomScreen = props => {
     const roomId = props.navigation.getParam('roomId')
-
-    const lightsInfo = useSelector(selectDevicesInfo(roomId, 'light'))
 
     const doorsInfo = useSelector(selectDevicesInfo(roomId, 'door'))
 
@@ -58,7 +56,7 @@ const RoomScreen = props => {
                                 props.navigation.navigate({
                                     routeName: 'Light',
                                     params: {
-                                        lightsInfo: lightsInfo
+                                        roomId: roomId,
                                     }
                                 })
                             }}
@@ -69,7 +67,8 @@ const RoomScreen = props => {
                                 props.navigation.navigate({
                                     routeName: 'Fan',
                                     params: {
-                                        fansInfo: fansInfo
+                                        roomId: roomId,
+                                        fansInfo: fansInfo,
                                     }
                                 })
                             }}
@@ -83,7 +82,8 @@ const RoomScreen = props => {
                                 props.navigation.navigate({
                                     routeName: 'Door',
                                     params: {
-                                        doorsInfo: doorsInfo
+                                        roomId: roomId,
+                                        doorsInfo: doorsInfo,
                                     }
                                 })
                             }}
