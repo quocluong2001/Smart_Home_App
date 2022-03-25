@@ -7,21 +7,32 @@ import {
     Keyboard,
     Switch
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
 import BodyText from './BodyText';
-
 import Colors from '../constants/Colors';
+import { selectDeviceInfoByDeviceId } from '../store/selectors/selectDevicesInfoByRoomId';
+import { toggleOnOff } from '../store/actions/toggleDeviceStatus'
 
 const DeviceCard = props => {
+    const roomId = props.roomId
+    const deviceId = props.deviceId
+
+    const deviceInfo = useSelector(selectDeviceInfoByDeviceId(roomId, deviceId))
+
+    const dispatch = useDispatch()
+
+    const switchHandler = () => {
+        dispatch(toggleOnOff(roomId, deviceId))
+    }
+
     let visibleState
-    if (props.switchValue === true) {
+    if (deviceInfo.status === true) {
         visibleState = props.activeStateText
     }
     else {
         visibleState = props.inactiveStateText
     }
-
-    
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -44,8 +55,8 @@ const DeviceCard = props => {
                     <View style={styles.buttonContainer}>
                         <Switch
                             style={styles.switch}
-                            value={props.switchValue}
-                            onValueChange={props.onValueChange}
+                            value={deviceInfo.status}
+                            onValueChange={switchHandler}
                         />
                         <View style={styles.stateContainer}>
                             <BodyText style={styles.state}>

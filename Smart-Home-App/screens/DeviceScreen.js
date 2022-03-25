@@ -7,19 +7,19 @@ import { useSelector, useDispatch } from "react-redux";
 
 import Colors from "../constants/Colors";
 // import NormalButton from "../components/NormalButton";
-import useForceUpdate from "../custom_hooks/useForceUpdate";
+// import useForceUpdate from "../custom_hooks/useForceUpdate";
 // import AddNewDeviceModal from "../components/AddNewDeviceModal";
 // import RemoveDeviceModal from "../components/RemoveDeviceModal";
 import BodyText from "../components/BodyText";
 import DeviceList from "../components/DeviceList";
-import { selectDevicesInfo } from "../store/selectors/selectDevicesInfoByRoomIdAndType";
+import { selectDevicesInfoByType } from "../store/selectors/selectDevicesInfoByRoomId";
 
 const DeviceScreen = props => {
     // const [isAddMode, setIsAddMode] = useState(false)
     // const [isRemoveMode, setIsRemoveMode] = useState(false)
 
     const roomId = props.roomId
-    const devicesInfo = useSelector(selectDevicesInfo(roomId, props.deviceType))
+    const devicesInfo = useSelector(selectDevicesInfoByType(roomId, props.deviceType))
 
     // const openAddModeHandler = () => {
     //     setIsAddMode(true)
@@ -109,6 +109,7 @@ const DeviceScreen = props => {
         <View style={styles.screen}>
             {informationCard}
             <DeviceList
+                roomId={roomId}
                 listData={devicesInfo}
                 numOfButtons={props.numOfButtons}
                 deviceImage={props.deviceImage}

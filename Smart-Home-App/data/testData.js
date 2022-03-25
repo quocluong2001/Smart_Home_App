@@ -8,6 +8,7 @@ export const ROOMS = [
         require('../assets/images/Bedroom.png'),
         [
             new Device('l1', 'light', 'Light 1', false),
+            new Device('l2', 'light', 'Light 2', false),
             new Device('d1', 'door', 'Door 1', false),
             new Device('f1', 'fan', 'Fan 1', false),
         ]

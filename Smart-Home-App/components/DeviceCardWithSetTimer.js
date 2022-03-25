@@ -7,14 +7,28 @@ import {
     Keyboard,
     Switch
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
 import BodyText from './BodyText';
 import NormalButton from './NormalButton';
 import Colors from '../constants/Colors';
+import { selectDeviceInfoByDeviceId } from '../store/selectors/selectDevicesInfoByRoomId';
+import { toggleOnOff } from '../store/actions/toggleDeviceStatus'
 
 const DeviceCardWithSetTimer = props => {
+    const roomId = props.roomId
+    const deviceId = props.deviceId
+
+    const deviceInfo = useSelector(selectDeviceInfoByDeviceId(roomId, deviceId))
+
+    const dispatch = useDispatch()
+
+    const switchHandler = () => {
+        dispatch(toggleOnOff(roomId, deviceId))
+    }
+
     let visibleState
-    if (props.switchValue === true) {
+    if (deviceInfo.status === true) {
         visibleState = props.activeStateText
     }
     else {
@@ -25,8 +39,8 @@ const DeviceCardWithSetTimer = props => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{ ...styles.container, ...props.style }}>
                 <View style={styles.textContainer}>
-                    <BodyText style={styles.deviceTypeText}>
-                        {props.deviceType}
+                    <BodyText style={styles.deviceNameText}>
+                        {props.deviceName}
                     </BodyText>
                 </View>
                 <View style={styles.contentContainer}>
@@ -47,18 +61,12 @@ const DeviceCardWithSetTimer = props => {
                     <View style={styles.buttonContainer}>
                         <Switch
                             style={styles.switch}
-                            value={props.switchValue}
-                            onValueChange={props.onValueChange}
+                            value={deviceInfo.status}
+                            onValueChange={switchHandler}
                         />
                         <NormalButton
-                            buttonStyle={{
-                                ...styles.button,
-                                ...props.buttonStyle
-                            }}
-                            buttonTextStyle={{
-                                ...styles.buttonText,
-                                ...props.buttonTextStyle
-                            }}
+                            buttonStyle={styles.button}
+                            buttonTextStyle={styles.buttonText}
                             buttonName={props.buttonName}
                             onPress={props.onPressButton}
                         />
@@ -84,7 +92,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    deviceTypeText: {
+    deviceNameText: {
         fontFamily: 'roboto-bold',
         fontSize: 20,
         textAlign: 'center',
@@ -141,10 +149,11 @@ const styles = StyleSheet.create({
         width: 108,
         height: 37,
         marginTop: 10,
+        backgroundColor: Colors.buttonColor3
     },
 
     buttonText: {
-        color: 'black'
+        color: Colors.fontColor4
     },
 })
 

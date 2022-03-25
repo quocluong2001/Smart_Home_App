@@ -17,8 +17,8 @@ const DoorScreen = props => {
                 deviceType='door'
                 deviceImage={require('../assets/images/Door.png')}
                 numOfButtons='1'
-                activeStateText='Closed'
-                inactiveStateText='Opened'
+                activeStateText='Locked'
+                inactiveStateText='Unlocked'
             />
         </ImageBackground>
     )

@@ -10,14 +10,9 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import DeviceButton from '../components/DeviceButton'
 import CustomHeaderButton from "../components/CustomHeaderComponent";
 import { toggleFav } from "../store/actions/toggleFavRoom";
-import { selectDevicesInfo } from "../store/selectors/selectDevicesInfoByRoomIdAndType";
 
 const RoomScreen = props => {
     const roomId = props.navigation.getParam('roomId')
-
-    const doorsInfo = useSelector(selectDevicesInfo(roomId, 'door'))
-
-    const fansInfo = useSelector(selectDevicesInfo(roomId, 'fan'))
 
     const isFav = useSelector(state => state.rooms.favoriteRooms.some(
         room => room.id === roomId
@@ -68,7 +63,6 @@ const RoomScreen = props => {
                                     routeName: 'Fan',
                                     params: {
                                         roomId: roomId,
-                                        fansInfo: fansInfo,
                                     }
                                 })
                             }}
@@ -83,7 +77,6 @@ const RoomScreen = props => {
                                     routeName: 'Door',
                                     params: {
                                         roomId: roomId,
-                                        doorsInfo: doorsInfo,
                                     }
                                 })
                             }}
@@ -107,7 +100,7 @@ RoomScreen.navigationOptions = navData => {
                 <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                     <Item
                         title="Favorite"
-                        iconName={isFav ? 'ios-star' : 'ios-star-outline'}
+                        iconName={isFav ? 'heart' : 'heart-outline'}
                         onPress={toggleFav}
                     />
                 </HeaderButtons>

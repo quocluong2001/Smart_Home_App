@@ -24,6 +24,12 @@ const LightScreen = props => {
     )
 }
 
+LightScreen.navigationOptions = navData => {
+    return {
+        headerTitle: 'Light(s)'
+    }
+}
+
 const styles = StyleSheet.create({
     backgroundImage: {
         width: '100%',

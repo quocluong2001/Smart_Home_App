@@ -31,7 +31,7 @@ const MainTabNavigator = createMaterialBottomTabNavigator({
             tabBarIcon: tabBarInfo => {
                 return (
                     <Ionicons
-                        name="ios-star"
+                        name="heart"
                         size={25}
                         color={tabBarInfo.tintColor}
                     />

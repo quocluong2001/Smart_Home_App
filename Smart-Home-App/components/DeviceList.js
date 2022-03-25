@@ -9,10 +9,10 @@ const DeviceList = props => {
         if (props.numOfButtons === '1') {
             return (
                 <DeviceCard
+                    roomId={props.roomId}
                     deviceId={itemData.item.id}
                     deviceName={itemData.item.name}
                     source={props.deviceImage}
-                    switchValue={itemData.item.state}
                     style={{ marginVertical: 10 }}
                     activeStateText={props.activeStateText}
                     inactiveStateText={props.inactiveStateText}
@@ -22,14 +22,12 @@ const DeviceList = props => {
         else if (props.numOfButtons === '2') {
             return (
                 <DeviceCardWithSetTimer
-                    deviceType={itemData.item.name}
+                    roomId={props.roomId}
+                    deviceId={itemData.item.id}
+                    deviceName={itemData.item.name}
                     source={props.deviceImage}
-                    state={itemData.item.visibleState}
-                    switchValue={itemData.item.state}
-                    buttonName='Set timer'
-                    buttonStyle={styles.button}
-                    buttonTextStyle={styles.buttonText}
-                    onPressButton={buttonHandler}
+                    buttonName='Set Timer'
+                    onPressButton={() => { }}
                     style={{ marginVertical: 10 }}
                     activeStateText={props.activeStateText}
                     inactiveStateText={props.inactiveStateText}
