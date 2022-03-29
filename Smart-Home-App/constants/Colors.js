@@ -16,4 +16,6 @@ export default {
     fontColor3: '#632DC4',
     fontColor4: '#2F2626',
     fontColor5: '#44FF02',
+    fontColor6: '#00FFFF',
+    fontColor7: '#FF0000',
 }

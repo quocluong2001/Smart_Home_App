@@ -30,7 +30,7 @@ const getDevicesByRoomId = async (req, res) => {
   try {
     const room = await Room.findOne({ room_id: req.params.room_id }).populate(
       'devices',
-      ['device_id', 'key', 'name', 'description']
+      ['device_id', 'key', 'name', 'description', 'data']
     );
 
     return res.json(room.devices);

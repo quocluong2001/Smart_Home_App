@@ -12,6 +12,7 @@ const FavoriteRoomScreen = props => {
             source={require('../assets/images/Background6.png')}
             resizeMode="cover"
             style={styles.backgroundImage}
+            blurRadius={1}
         >
             <View style={styles.screen}>
                 <RoomList

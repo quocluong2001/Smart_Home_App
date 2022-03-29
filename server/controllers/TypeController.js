@@ -25,7 +25,7 @@ const getDevicesByTypeId = async (req, res) => {
   try {
     const type = await Type.findOne({ type_id: req.params.type_id }).populate(
       'devices',
-      ['device_id', 'key', 'name', 'description']
+      ['device_id', 'key', 'name', 'description', 'data']
     );
 
     return res.json(type.devices);

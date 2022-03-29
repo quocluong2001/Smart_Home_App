@@ -12,6 +12,7 @@ const HomeScreen = props => {
             source={require('../assets/images/Background4.png')}
             resizeMode="cover"
             style={styles.backgroundImage}
+            blurRadius={1}
         >
             <View style={styles.screen}>
                 <RoomList

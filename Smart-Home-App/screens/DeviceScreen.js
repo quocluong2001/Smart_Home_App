@@ -1,108 +1,50 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import {
     View,
     StyleSheet,
 } from 'react-native';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { Ionicons } from "@expo/vector-icons";
 
 import Colors from "../constants/Colors";
-// import NormalButton from "../components/NormalButton";
-// import useForceUpdate from "../custom_hooks/useForceUpdate";
-// import AddNewDeviceModal from "../components/AddNewDeviceModal";
-// import RemoveDeviceModal from "../components/RemoveDeviceModal";
-import BodyText from "../components/BodyText";
+import NormalButton from "../components/NormalButton";
+import AddDeviceModal from "../components/AddDeviceModal";
 import DeviceList from "../components/DeviceList";
+import InformationCard from "../components/InformationCard";
 import { selectDevicesInfoByType } from "../store/selectors/selectDevicesInfoByRoomId";
+import { changeValueTextStyle } from "../utils/changeValueTextStyle";
 
 const DeviceScreen = props => {
-    // const [isAddMode, setIsAddMode] = useState(false)
-    // const [isRemoveMode, setIsRemoveMode] = useState(false)
-
+    const [isAddMode, setIsAddMode] = useState(false)
     const roomId = props.roomId
-    const devicesInfo = useSelector(selectDevicesInfoByType(roomId, props.deviceType))
+    const deviceType = props.deviceType
 
-    // const openAddModeHandler = () => {
-    //     setIsAddMode(true)
-    // }
+    const devicesInfo = useSelector(selectDevicesInfoByType(roomId, deviceType))
 
-    // const openRemoveModeHandler = () => {
-    //     if (cards.length === 0) {
-    //         Alert.alert(
-    //             'There are no devices to remove',
-    //             '',
-    //             [{ text: 'OK', style: 'cancel' }]
-    //         )
-    //         return
-    //     }
+    const openAddModeHandler = () => {
+        setIsAddMode(true)
+    }
 
-    //     setIsRemoveMode(true)
-    // }
+    const cancelAddModeHandler = () => {
+        setIsAddMode(false)
+    }
 
-    // const addNewLightCardHandler = deviceInform => {
-    //     if (deviceInform === '') {
-    //         Alert.alert(
-    //             'Invalid device\'s name',
-    //             'Please enter device\'s name',
-    //             [{ text: 'OK', style: 'cancel' }]
-    //         )
-    //         return
-    //     }
+    const infoTitle = props.infoTitle
+    const infoValue = props.infoValue
+    const infoUnit = props.infoUnit
 
-    //     for (const deviceCard of cards) {
-    //         if (deviceCard.deviceType === deviceInform) {
-    //             Alert.alert(
-    //                 'Duplicated device',
-    //                 'This device had already been installed',
-    //                 [{ text: 'OK', style: 'cancel' }]
-    //             )
-    //             return
-    //         }
-    //     }
-
-    //     setCards([
-    //         ...cards,
-    //         {
-    //             deviceType: deviceInform,
-    //             visibleState: inactiveStateText,
-    //             state: false
-    //         }]
-    //     )
-    //     setIsAddMode(false)
-    // }
-
-    // const removeDeviceHandler = deviceName => {
-    //     setCards(cards.filter(deviceInform => deviceInform.deviceType != deviceName))
-    // }
-
-    // const removeAllDeviceHandler = () => {
-    //     setCards([])
-    // }
-
-    // const cancelAddNewLightCardHandler = () => {
-    //     setIsAddMode(false)
-    // }
-
-    // const cancelRemoveDeviceModalHandler = () => {
-    //     setIsRemoveMode(false)
-    // }
+    let tempValueTextStyle = changeValueTextStyle(infoTitle, infoValue)
 
     let informationCard
 
     if (props.informationCard) {
-        informationCard = (
-            <View style={styles.informationCard}>
-                <BodyText style={styles.informationTitleStyle}>
-                    {props.informationTitle}
-                </BodyText>
-                <BodyText style={styles.informationTextStyle}>
-                    <BodyText
-                        style={{ color: Colors.fontColor5 }}
-                    >
-                        {props.informationValue}
-                    </BodyText> {props.informationUnit}
-                </BodyText>
-            </View>
-        )
+        informationCard =
+            <InformationCard
+                informationTitle={infoTitle}
+                informationValue={infoValue}
+                informationUnit={infoUnit}
+                valueTextStyle={tempValueTextStyle}
+            />
     }
 
     return (
@@ -116,38 +58,17 @@ const DeviceScreen = props => {
                 activeStateText={props.activeStateText}
                 inactiveStateText={props.inactiveStateText}
             />
-            {/* <View style={styles.buttonContainer}>
-                <NormalButton
-                    buttonStyle={styles.manageDeviceCardButton}
-                    buttonTextStyle={styles.manageDeviceCardButtonText}
-                    buttonName='Add'
-                    onPress={openAddModeHandler}
-                />
-                <NormalButton
-                    buttonStyle={styles.manageDeviceCardButton}
-                    buttonTextStyle={styles.manageDeviceCardButtonText}
-                    buttonName='Remove'
-                    onPress={openRemoveModeHandler}
-                />
-                <NormalButton
-                    buttonStyle={styles.manageDeviceCardButton}
-                    buttonTextStyle={styles.manageDeviceCardButtonText}
-                    buttonName='Remove all'
-                    onPress={removeAllDeviceHandler}
-                />
-            </View> */}
-            {/* <AddNewDeviceModal
-                visible={isAddMode}
-                onConfirm={addNewLightCardHandler}
-                onCancel={cancelAddNewLightCardHandler}
+            <NormalButton
+                buttonStyle={styles.manageDeviceCardButton}
+                buttonName={<Ionicons name="add" size={40} color="white" />}
+                onPress={openAddModeHandler}
             />
-            <RemoveDeviceModal
-                visible={isRemoveMode}
-                deviceList={cards}
-                onRemove={removeDeviceHandler}
-                onRemoveAll={removeAllDeviceHandler}
-                onCancel={cancelRemoveDeviceModalHandler}
-            /> */}
+            <AddDeviceModal
+                visible={isAddMode}
+                onCancel={cancelAddModeHandler}
+                roomId={roomId}
+                deviceType={deviceType}
+            />
         </View>
     )
 }
@@ -166,45 +87,13 @@ const styles = StyleSheet.create({
         color: Colors.fontColor1
     },
 
-    // buttonContainer: {
-    //     flexDirection: "row",
-    //     width: '65%',
-    //     justifyContent: "space-between"
-
-    // },
-
-    // manageDeviceCardButton: {
-    //     height: 70,
-    //     width: 70,
-    //     backgroundColor: Colors.backgroundColor1,
-    //     marginBottom: 10,
-    //     padding: 0,
-    // },
-
-    // manageDeviceCardButtonText: {
-    //     color: Colors.fontColor1
-    // },
-
-    informationCard: {
+    manageDeviceCardButton: {
+        height: 70,
+        width: 70,
         backgroundColor: Colors.backgroundColor1,
-        marginVertical: 10,
-        width: 180,
-        height: 87,
-        alignItems: "center",
-        justifyContent: "space-between",
-        borderRadius: 24,
-        padding: 15
+        marginBottom: 10,
+        padding: 0,
     },
-
-    informationTitleStyle: {
-        fontFamily: 'roboto-bold',
-        fontSize: 20,
-        color: Colors.fontColor1
-    },
-
-    informationTextStyle: {
-        color: Colors.fontColor1
-    }
 })
 
 export default DeviceScreen

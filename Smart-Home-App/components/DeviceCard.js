@@ -5,25 +5,46 @@ import {
     Image,
     TouchableWithoutFeedback,
     Keyboard,
-    Switch
+    Switch,
+    Alert
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import BodyText from './BodyText';
 import Colors from '../constants/Colors';
+import RemoveButton from './RemoveButton';
 import { selectDeviceInfoByDeviceId } from '../store/selectors/selectDevicesInfoByRoomId';
-import { toggleOnOff } from '../store/actions/toggleDeviceStatus'
+import { toggleOnOff } from '../store/actions/toggleDeviceStatus';
+import { removeDevice } from '../store/actions/removeDevice';
 
 const DeviceCard = props => {
     const roomId = props.roomId
     const deviceId = props.deviceId
-
     const deviceInfo = useSelector(selectDeviceInfoByDeviceId(roomId, deviceId))
 
     const dispatch = useDispatch()
 
     const switchHandler = () => {
         dispatch(toggleOnOff(roomId, deviceId))
+    }
+
+    const removeDeviceHandler = () => {
+        Alert.alert(
+            'Confirm device\'s removal',
+            'Are you sure about removing this device?',
+            [
+                {
+                    text: 'Confirm',
+                    onPress: () => dispatch(removeDevice(roomId, deviceId)),
+                },
+                {
+                    text: 'Cancel',
+                }
+            ],
+            {
+                cancelable: true,
+            }
+        )
     }
 
     let visibleState
@@ -37,10 +58,17 @@ const DeviceCard = props => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{ ...styles.container, ...props.style }}>
-                <View style={styles.textContainer}>
-                    <BodyText style={styles.deviceNameText}>
-                        {props.deviceName}
-                    </BodyText>
+                <View style={styles.header}>
+                    <View style={styles.textContainer}>
+                        <BodyText style={styles.deviceNameText}>
+                            {props.deviceName}
+                        </BodyText>
+                    </View>
+                    <RemoveButton
+                        style={styles.removeButton}
+                        buttonColor='red'
+                        onRemove={removeDeviceHandler}
+                    />
                 </View>
                 <View style={styles.contentContainer}>
                     <View style={styles.imageStateContainer}>
@@ -80,9 +108,21 @@ const styles = StyleSheet.create({
         borderRadius: 24,
     },
 
-    textContainer: {
+    header: {
+        flexDirection: 'row',
         width: '100%',
-        alignItems: 'center'
+
+    },
+
+    removeButton: {
+        width: '37%',
+        alignItems: 'flex-end',
+        paddingRight: 10,
+    },
+
+    textContainer: {
+        width: '63%',
+        alignItems: 'flex-end',
     },
 
     deviceNameText: {

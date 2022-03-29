@@ -14,17 +14,17 @@ setIOkey(io_key);
 const fetchInterval = setInterval(async () => {
   await getDevices();
   await getRooms();
-  await addDevices();
   await getData();
-}, 5000);
+  await addDevices();
+}, 6000);
 
-const fetch = async () => {
-  // var startTime = performance.now();
-  // await getDevices();
-  // await getRooms();
-  // await addDevices();
-  // await getData();
-  // var endTime = performance.now();
-  // console.log(`${endTime - startTime} milliseconds`);
-};
+// const fetch = async () => {
+//   var startTime = performance.now();
+//   await getDevices();
+//   await getRooms();
+//   await addDevices();
+//   await getData();
+//   var endTime = performance.now();
+//   console.log(`${endTime - startTime} milliseconds`);
+// };
 module.exports = fetchInterval;

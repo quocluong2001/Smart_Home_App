@@ -49,13 +49,13 @@ connection.once('open', () => {
           description: change.fullDocument.description,
           data: change.fullDocument.data,
         };
-        io.of('/api/socket').emit('newTest', device);
+        io.of('/api/socket').emit('newDevice', device);
         break;
 
       case 'update':
         const updateFields = change.updateDescription.updatedFields;
         const updateData = updateFields.data;
-        io.of('/api/socket').emit('updateTest', updateData);
+        io.of('/api/socket').emit('updateDevice', updateData);
         break;
       // case 'delete':
       //   io.of('/api/socket').emit('deletedTest', change.documentKey._id);

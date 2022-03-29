@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import fetchFonts from './utils/fetchFonts';
 import MainNavigator from './navigations/MainNavigator'
 import roomReducers from './store/reducers/room';
+import getRooms from './data/getRooms'
 
 enableScreens()
 
@@ -19,6 +20,9 @@ const rootReducer = combineReducers({
 })
 
 const store = createStore(rootReducer)
+
+const rooms = getRooms()
+// console.log(rooms)
 
 export default function App() {
 

@@ -1,4 +1,4 @@
-class Device {
+export class Device {
     constructor(id, type, name, status) {
         this.id = id
         this.type = type
@@ -7,4 +7,9 @@ class Device {
     }
 }
 
-export default Device
+export class Sensor extends Device {
+    constructor(id, type, name, status, payload) {
+        super(id, type, name, status)
+        this.payload = payload
+    }
+}

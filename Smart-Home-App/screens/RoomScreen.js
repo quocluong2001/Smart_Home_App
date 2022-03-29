@@ -41,6 +41,7 @@ const RoomScreen = props => {
             source={require('../assets/images/Background3.png')}
             resizeMode="cover"
             style={styles.backgroundImage}
+            blurRadius={1}
         >
             <View style={styles.screen}>
                 <View style={styles.content}>
