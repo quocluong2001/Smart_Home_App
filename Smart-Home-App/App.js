@@ -1,31 +1,45 @@
-import { React, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import AppLoading from 'expo-app-loading';
+import { enableScreens } from 'react-native-screens'
+import { Provider, useDispatch } from 'react-redux';
 
+import { configureStore } from './store/store';
 import fetchFonts from './utils/fetchFonts';
-import TestScreen from './screens/TestScreen';
-import LoginScreen from './screens/LoginScreen';
-import HomeScreen from './screens/HomeScreen';
-import RoomScreen from './screens/RoomScreen';
-import LightScreen from './screens/LightScreen';
-import DoorScreen from './screens/DoorScreen';
-import FanScreen from './screens/FanScreen';
+import MainNavigator from './navigations/MainNavigator'
+import getAllRooms from './store/thunk-functions/getAllRooms'
+
+enableScreens()
 
 const useFonts = async () => {
   await fetchFonts()
 }
 
-export default function App() {
+const store = configureStore()
+
+export default AppWrapper = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
+
+const App = () => {
+  const dispatch = useDispatch()
 
   //! Load data
-  const [isDataLoaded, setIsDataLoaded] = useState(false)
+  const [isFontsLoaded, setIsFontsLoaded] = useState(false)
+
+  useEffect(() => {
+    dispatch(getAllRooms())
+  }, [])
 
   //* Load font
-  if (!isDataLoaded) {
+  if (!isFontsLoaded) {
     return (
       <AppLoading
         startAsync={useFonts}
-        onFinish={() => setIsDataLoaded(true)}
+        onFinish={() => setIsFontsLoaded(true)}
         onError={(error) => console.log(error)}
       />
     )
@@ -33,10 +47,6 @@ export default function App() {
   //! Done load data
 
   return (
-    <LightScreen/>
+    <MainNavigator />
   );
 }
-
-const styles = StyleSheet.create({
-
-});

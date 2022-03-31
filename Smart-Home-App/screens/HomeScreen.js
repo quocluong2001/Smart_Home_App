@@ -1,77 +1,56 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ImageBackground } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux'
 
-import Header from "../components/Header";
-import RoomButton from "../components/RoomButton";
+import RoomList from "../components/RoomList";
+import Loading from "../components/Loading";
+import getAllDevices from "../store/thunk-functions/getAllDevices";
 
 const HomeScreen = props => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getAllDevices())
+    }, [])
+
+    const roomsInfo = useSelector(state => state.rooms.rooms)
+    const [isLoading, setIsLoading] = useState(true)
+
     return (
-        <ImageBackground
-            source={require('../assets/images/Background4.png')}
-            resizeMode="cover"
-            style={styles.backgroundImage}
-        >
-            <View style={styles.screen}>
-                <Header>
-                    HOME
-                </Header>
-                <View style={{...styles.buttonContainer, marginTop: 40}}>
-                    <RoomButton
-                        source={require('../assets/images/Bedroom.png')}
-                        roomName='Bedroom'
-                        onPress={() => { }}
-                    />
-                    <RoomButton
-                        source={require('../assets/images/Livingroom.png')}
-                        roomName='Livingroom'
-                        onPress={() => { }}
+        <View style={styles.screenContainer}>
+            <Loading
+                visible={isLoading}
+            />
+            <ImageBackground
+                source={{ uri: 'https://i.ibb.co/58LJzhP/Background4.jpg' }}
+                resizeMode="cover"
+                style={styles.backgroundImage}
+                blurRadius={1}
+                onLoadStart={() => setIsLoading(true)}
+                onLoadEnd={() => setIsLoading(false)}
+            >
+                <View style={styles.screen}>
+                    <RoomList
+                        listData={roomsInfo}
+                        navigation={props.navigation}
                     />
                 </View>
-                <View style={{...styles.buttonContainer, marginVertical: 40}}>
-                    <RoomButton
-                        source={require('../assets/images/Kitchen.png')}
-                        roomName='Kitchen'
-                        onPress={() => { }}
-                    />
-                    <RoomButton
-                        source={require('../assets/images/Bathroom.png')}
-                        roomName='Bathroom'
-                        onPress={() => { }}
-                    />
-                </View>
-                <View style={styles.buttonContainer}>
-                    <RoomButton
-                        source={require('../assets/images/Garden.png')}
-                        roomName='Garden'
-                        onPress={() => { }}
-                    />
-                    <RoomButton
-                        source={require('../assets/images/Balcony.png')}
-                        roomName='Balcony'
-                        onPress={() => { }}
-                    />
-                </View>
-            </View>
-        </ImageBackground>
+            </ImageBackground>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
+    screenContainer: {
+        flex: 1,
+    },
     backgroundImage: {
         width: '100%',
         height: '100%',
     },
-
     screen: {
         flex: 1,
         alignItems: "center",
-    },
-
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: "space-between",
-        alignItems: "center",
-        width: '85%'
     },
 })
 
