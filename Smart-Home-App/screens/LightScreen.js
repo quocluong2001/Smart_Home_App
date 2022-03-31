@@ -16,15 +16,15 @@ const LightScreen = props => {
 
     return (
         <ImageBackground
-            source={require('../assets/images/Background1.png')}
+            source={{ uri: 'https://i.ibb.co/RQxxLY1/Background1.png' }}
             resizeMode="cover"
             style={styles.backgroundImage}
             blurRadius={1}
         >
-            <DeviceScreen  
+            <DeviceScreen
                 roomId={roomId}
                 deviceType='light'
-                deviceImage={require('../assets/images/Light.png')}
+                deviceImage={{ uri: 'https://i.ibb.co/ncYFpgD/Light.png' }}
                 numOfButtons='1'
                 activeStateText={activeLight}
                 inactiveStateText={inactiveLight}

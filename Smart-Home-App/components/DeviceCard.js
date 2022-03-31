@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     StyleSheet,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
+import Loading from './Loading';
 import BodyText from './BodyText';
 import Colors from '../constants/Colors';
 import RemoveButton from './RemoveButton';
@@ -18,6 +19,7 @@ import { toggleOnOff } from '../store/actions/toggleDeviceStatus';
 import { removeDevice } from '../store/actions/removeDevice';
 
 const DeviceCard = props => {
+    const [isLoading, setIsLoading] = useState(true)
     const roomId = props.roomId
     const deviceId = props.deviceId
     const deviceInfo = useSelector(selectDeviceInfoByDeviceId(roomId, deviceId))
@@ -48,7 +50,7 @@ const DeviceCard = props => {
     }
 
     let visibleState
-    if (deviceInfo.status === true) {
+    if (deviceInfo.payload.value === true) {
         visibleState = props.activeStateText
     }
     else {
@@ -59,31 +61,38 @@ const DeviceCard = props => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{ ...styles.container, ...props.style }}>
                 <View style={styles.header}>
+                    <View style={styles.headerLeft} />
                     <View style={styles.textContainer}>
                         <BodyText style={styles.deviceNameText}>
                             {props.deviceName}
                         </BodyText>
                     </View>
-                    <RemoveButton
-                        style={styles.removeButton}
-                        buttonColor='red'
-                        onRemove={removeDeviceHandler}
-                    />
+                    <View style={styles.headerRight}>
+                        <RemoveButton
+                            buttonColor='red'
+                            onRemove={removeDeviceHandler}
+                        />
+                    </View>
                 </View>
                 <View style={styles.contentContainer}>
                     <View style={styles.imageStateContainer}>
                         <View style={styles.imageContainer}>
+                            <Loading
+                                visible={isLoading}
+                            />
                             <Image
                                 source={props.source}
                                 resizeMode='contain'
                                 style={styles.image}
+                                onLoadStart={() => setIsLoading(true)}
+                                onLoadEnd={() => setIsLoading(false)}
                             />
                         </View>
                     </View>
                     <View style={styles.buttonContainer}>
                         <Switch
                             style={styles.switch}
-                            value={deviceInfo.status}
+                            value={deviceInfo.payload.value}
                             onValueChange={switchHandler}
                         />
                         <View style={styles.stateContainer}>
@@ -111,18 +120,22 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         width: '100%',
-
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
-    removeButton: {
-        width: '37%',
-        alignItems: 'flex-end',
-        paddingRight: 10,
+    headerLeft: {
+        width: '20%'
     },
 
     textContainer: {
-        width: '63%',
+        width: '60%',
+    },
+
+    headerRight: {
+        width: '20%',
         alignItems: 'flex-end',
+        paddingRight: 10,
     },
 
     deviceNameText: {

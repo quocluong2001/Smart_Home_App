@@ -11,15 +11,15 @@ const DoorScreen = props => {
 
     return (
         <ImageBackground
-            source={require('../assets/images/Background2.png')}
+            source={{ uri: 'https://i.ibb.co/QjgCY95/Background2.png' }}
             resizeMode="cover"
             style={styles.backgroundImage}
             blurRadius={1}
         >
-            <DeviceScreen  
+            <DeviceScreen
                 roomId={roomId}
                 deviceType='door'
-                deviceImage={require('../assets/images/Door.png')}
+                deviceImage={{ uri: 'https://i.ibb.co/Lz8rzJH/Door.png' }}
                 numOfButtons='1'
                 activeStateText={unlockedDoor}
                 inactiveStateText={lockedDoor}

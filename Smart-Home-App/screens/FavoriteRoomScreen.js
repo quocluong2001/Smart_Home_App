@@ -9,7 +9,7 @@ const FavoriteRoomScreen = props => {
 
     return (
         <ImageBackground
-            source={require('../assets/images/Background6.png')}
+            source={{ uri: 'https://i.ibb.co/DQRQf7Q/Background6.jpg' }}
             resizeMode="cover"
             style={styles.backgroundImage}
             blurRadius={1}

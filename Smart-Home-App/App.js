@@ -1,13 +1,12 @@
-import { React, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppLoading from 'expo-app-loading';
 import { enableScreens } from 'react-native-screens'
-import { createStore, combineReducers } from 'redux'
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 
+import { configureStore } from './store/store';
 import fetchFonts from './utils/fetchFonts';
 import MainNavigator from './navigations/MainNavigator'
-import roomReducers from './store/reducers/room';
-import getRooms from './data/getRooms'
+import getAllRooms from './store/thunk-functions/getAllRooms'
 
 enableScreens()
 
@@ -15,26 +14,32 @@ const useFonts = async () => {
   await fetchFonts()
 }
 
-const rootReducer = combineReducers({
-  rooms: roomReducers,
-})
+const store = configureStore()
 
-const store = createStore(rootReducer)
+export default AppWrapper = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
 
-const rooms = getRooms()
-// console.log(rooms)
-
-export default function App() {
+const App = () => {
+  const dispatch = useDispatch()
 
   //! Load data
-  const [isDataLoaded, setIsDataLoaded] = useState(false)
+  const [isFontsLoaded, setIsFontsLoaded] = useState(false)
+
+  useEffect(() => {
+    dispatch(getAllRooms())
+  }, [])
 
   //* Load font
-  if (!isDataLoaded) {
+  if (!isFontsLoaded) {
     return (
       <AppLoading
         startAsync={useFonts}
-        onFinish={() => setIsDataLoaded(true)}
+        onFinish={() => setIsFontsLoaded(true)}
         onError={(error) => console.log(error)}
       />
     )
@@ -42,8 +47,6 @@ export default function App() {
   //! Done load data
 
   return (
-    <Provider store={store}>
-      <MainNavigator />
-    </Provider>
+    <MainNavigator />
   );
 }

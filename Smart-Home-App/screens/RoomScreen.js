@@ -38,7 +38,7 @@ const RoomScreen = props => {
 
     return (
         <ImageBackground
-            source={require('../assets/images/Background3.png')}
+            source={{ uri: 'https://i.ibb.co/p0vSQQQ/Background3.png' }}
             resizeMode="cover"
             style={styles.backgroundImage}
             blurRadius={1}
@@ -47,7 +47,7 @@ const RoomScreen = props => {
                 <View style={styles.content}>
                     <View style={styles.buttonContainer}>
                         <DeviceButton
-                            source={require('../assets/images/Light.png')}
+                            source={{ uri: 'https://i.ibb.co/ncYFpgD/Light.png' }}
                             onPress={() => {
                                 props.navigation.navigate({
                                     routeName: 'Light',
@@ -58,7 +58,7 @@ const RoomScreen = props => {
                             }}
                         />
                         <DeviceButton
-                            source={require('../assets/images/Fan.png')}
+                            source={{ uri: 'https://i.ibb.co/DMk2mw2/Fan.png' }}
                             onPress={() => {
                                 props.navigation.navigate({
                                     routeName: 'Fan',
@@ -71,7 +71,7 @@ const RoomScreen = props => {
                     </View>
                     <View style={styles.buttonContainer}>
                         <DeviceButton
-                            source={require('../assets/images/Door.png')}
+                            source={{ uri: 'https://i.ibb.co/Lz8rzJH/Door.png' }}
                             buttonStyle={styles.doorButton}
                             onPress={() => {
                                 props.navigation.navigate({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     StyleSheet,
     View,
@@ -12,17 +12,25 @@ import {
 import TitleText from '../components/TitleText';
 import LoginCard from '../components/LoginCard';
 import Colors from '../constants/Colors';
+import Loading from '../components/Loading';
 
 const LoginScreen = props => {
+    const [isLoading, setIsLoading] = useState(true)
+
     return (
         <ScrollView style={styles.screen}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <KeyboardAvoidingView style={styles.content}>
                     <View style={styles.imageContainer}>
+                        <Loading
+                            visible={isLoading}
+                        />
                         <Image
-                            source={require('../assets/images/Background0.png')}
+                            source={{ uri: 'https://i.ibb.co/L5s6q7m/Background0.png' }}
                             resizeMode='cover'
                             style={styles.image}
+                            onLoadStart={() => setIsLoading(true)}
+                            onLoadEnd={() => setIsLoading(false)}
                         />
                     </View>
                     <View style={styles.titleContainer}>
@@ -35,7 +43,7 @@ const LoginScreen = props => {
                     </View>
                     <LoginCard onLogin={() => {
                         props.navigation.replace('Home')
-                    }}/>
+                    }} />
                 </KeyboardAvoidingView>
             </TouchableWithoutFeedback>
         </ScrollView>

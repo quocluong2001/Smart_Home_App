@@ -2,13 +2,13 @@ import { TOGGLE_FAV } from "../actions/actionType"
 import { TOGGLE_ON_OFF } from "../actions/actionType"
 import { REMOVE_DEVICE } from "../actions/actionType"
 import { ADD_DEVICE } from "../actions/actionType"
-import { ROOMS } from "../../data/testData"
+import { FETCH_DATA } from "../actions/actionType"
 import { Device } from "../../models/device"
 import Room from "../../models/room"
 
 const initialState = {
-    availableRooms: ROOMS,
-    rooms: ROOMS,
+    availableRooms: [],
+    rooms: [],
     favoriteRooms: []
 }
 
@@ -22,6 +22,15 @@ const addFavoriteRoom = (favoriteRooms, item) => {
     const updatedArray = [...favoriteRooms]
     updatedArray.unshift(item)
     return updatedArray
+}
+
+const updateData = (state, action) => {
+    return {
+        ...state,
+        availableRooms: action.payload,
+        rooms: action.payload,
+        favoriteRooms: []
+    }
 }
 
 const toggleFavorite = (state, action) => {
@@ -56,7 +65,10 @@ const toggleOnOff = (state, action) => {
                         device.id,
                         device.type,
                         device.name,
-                        device.status ? false : true,
+                        {
+                            ...device,
+                            value: device.payload.value ? false : true,
+                        },
                     )
                 }
                 return device
@@ -135,6 +147,8 @@ const removeDevice = (state, action) => {
 
 const roomReducers = (state = initialState, action) => {
     switch (action.type) {
+        case FETCH_DATA:
+            return updateData(state, action)
         case TOGGLE_FAV:
             return toggleFavorite(state, action)
         case TOGGLE_ON_OFF:

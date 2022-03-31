@@ -12,19 +12,21 @@ const FanScreen = props => {
     const inactiveFan = <MaterialCommunityIcons name="fan-off" size={25} color="white" />
 
     const sensorsInfo = useSelector(selectDevicesInfoByType(roomId, 'temp sensor'))
+    //! hard coded
     const sensorInfo = sensorsInfo[0]
+    //! end hard coded
 
     return (
         <ImageBackground
-            source={require('../assets/images/Background5.png')}
+            source={{ uri: 'https://i.ibb.co/kcnGVT2/Background5.jpg' }}
             resizeMode="cover"
             style={styles.backgroundImage}
             blurRadius={1}
         >
-            <DeviceScreen  
+            <DeviceScreen
                 roomId={roomId}
                 deviceType='fan'
-                deviceImage={require('../assets/images/Fan.png')}
+                deviceImage={{ uri: 'https://i.ibb.co/DMk2mw2/Fan.png' }}
                 numOfButtons='2'
                 activeStateText={activeFan}
                 inactiveStateText={inactiveFan}

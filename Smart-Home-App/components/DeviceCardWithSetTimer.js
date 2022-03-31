@@ -50,7 +50,7 @@ const DeviceCardWithSetTimer = props => {
     }
 
     let visibleState
-    if (deviceInfo.status === true) {
+    if (deviceInfo.payload.value === true) {
         visibleState = props.activeStateText
     }
     else {
@@ -61,16 +61,18 @@ const DeviceCardWithSetTimer = props => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{ ...styles.container, ...props.style }}>
                 <View style={styles.header}>
+                    <View style={styles.headerLeft} />
                     <View style={styles.textContainer}>
                         <BodyText style={styles.deviceNameText}>
                             {props.deviceName}
                         </BodyText>
                     </View>
-                    <RemoveButton
-                        style={styles.removeButton}
-                        buttonColor='red'
-                        onRemove={removeDeviceHandler}
-                    />
+                    <View style={styles.headerRight}>
+                        <RemoveButton
+                            buttonColor='red'
+                            onRemove={removeDeviceHandler}
+                        />
+                    </View>
                 </View>
                 <View style={styles.contentContainer}>
                     <View style={styles.imageStateContainer}>
@@ -90,7 +92,7 @@ const DeviceCardWithSetTimer = props => {
                     <View style={styles.buttonContainer}>
                         <Switch
                             style={styles.switch}
-                            value={deviceInfo.status}
+                            value={deviceInfo.payload.value}
                             onValueChange={switchHandler}
                         />
                         <NormalButton
@@ -119,18 +121,22 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         width: '100%',
-
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
-    removeButton: {
-        width: '41%',
-        alignItems: 'flex-end',
-        paddingRight: 20,
+    headerLeft: {
+        width: '20%'
     },
 
     textContainer: {
-        width: '59%',
-        alignItems: 'flex-end'
+        width: '60%',
+    },
+
+    headerRight: {
+        width: '20%',
+        alignItems: 'flex-end',
+        paddingRight: 10,
     },
 
     deviceNameText: {
