@@ -66,7 +66,7 @@ const toggleOnOff = (state, action) => {
                         device.type,
                         device.name,
                         {
-                            ...device,
+                            ...device.payload,
                             value: device.payload.value ? false : true,
                         },
                     )
