@@ -30,15 +30,23 @@ const getAllDevices = () => async (dispatch, getState) => {
                                 device.description === 'light sensor'
                             )
                                 ? device.data[device.data.length - 1].value
-                                : device.data[device.data.length - 1].value != "0"
-                                    ? true
-                                    : false
+                                :
+                                (
+                                    (device.description === 'light' &&
+                                        device.data[device.data.length - 1].value === "0") ||
+                                    (device.description === 'fan' &&
+                                        device.data[device.data.length - 1].value === "2") ||
+                                    (device.description === 'door' &&
+                                        device.data[device.data.length - 1].value === "4")
+                                )
+                                    ? false
+                                    : true
                     }
                 )
             }
         )
         room.devices = devicesData
-        
+
         //! for test only
         break
     }

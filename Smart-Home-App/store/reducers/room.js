@@ -85,6 +85,7 @@ const toggleOnOff = (state, action) => {
 
     return {
         ...state,
+        availableRooms: updatedRooms,
         rooms: updatedRooms,
     }
 }

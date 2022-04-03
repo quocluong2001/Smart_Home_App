@@ -15,6 +15,7 @@ import BodyText from './BodyText';
 import Colors from '../constants/Colors';
 import RemoveButton from './RemoveButton';
 import { selectDeviceInfoByDeviceId } from '../store/selectors/selectDevicesInfoByRoomId';
+import updateDevicesValue from '../store/thunk-functions/updateDevicesValue';
 import { toggleOnOff } from '../store/actions/toggleDeviceStatus';
 import { removeDevice } from '../store/actions/removeDevice';
 
@@ -27,7 +28,8 @@ const DeviceCard = props => {
     const dispatch = useDispatch()
 
     const switchHandler = () => {
-        dispatch(toggleOnOff(roomId, deviceId))
+        // dispatch(toggleOnOff(roomId, deviceId))
+        dispatch(updateDevicesValue(roomId, deviceId))
     }
 
     const removeDeviceHandler = () => {
