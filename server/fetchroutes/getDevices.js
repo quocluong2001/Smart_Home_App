@@ -1,7 +1,7 @@
 const axios = require('axios');
 // const Test = require('../models/Test');
 const Device = require('../models/Device');
-const Type = require('../models/Type');
+// const Type = require('../models/Type');
 
 const getDevices = async () => {
   try {
@@ -16,15 +16,15 @@ const getDevices = async () => {
     if (responseDevices.length !== 0) {
       responseDevices.map(async (eachDevice) => {
         const { id, key, name, description, username } = eachDevice;
-        const types = await Type.find({ name: description });
+        // const types = await Type.find({ name: description });
 
-        if (types.length === 0 && !tempTypes.includes(description)) {
-          const newType = new Type({
-            name: description,
-          });
-          tempTypes.unshift(description);
-          await newType.save();
-        }
+        // if (types.length === 0 && !tempTypes.includes(description)) {
+        //   const newType = new Type({
+        //     name: description,
+        //   });
+        //   tempTypes.unshift(description);
+        //   await newType.save();
+        // }
 
         const devices = await Device.find({ device_id: id });
 
