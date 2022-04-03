@@ -9,8 +9,6 @@ const updateDevicesValue = (roomId, deviceId) => async (dispatch, getState) => {
     const selectedRoom = getState().rooms.availableRooms.find(room => room.id === roomId)
     const selectedDevice = selectedRoom.devices.find(device => device.id === deviceId)
 
-    console.log(selectedDevice)
-
     await axios.post(`http://192.168.1.100:5000/api/device/${deviceId}/data`, {
         "value": selectedDevice.type === 'light' && selectedDevice.payload.value === true
             ? 1
@@ -24,6 +22,8 @@ const updateDevicesValue = (roomId, deviceId) => async (dispatch, getState) => {
                             ? 5
                             : 4
     })
+    .then(response => console.log(response))
+    .catch(error => console.log(error))
 }
 
 export default updateDevicesValue
