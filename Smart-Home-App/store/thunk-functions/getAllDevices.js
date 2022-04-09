@@ -17,7 +17,7 @@ const getAllDevices = () => async (dispatch, getState) => {
                     device.description,
                     device.name,
                     {
-                        ...device.data[device.data.length - 1],
+                        ...device.data[0],
                         unit:
                             device.description === 'temp sensor'
                                 ? 'Celsius'
@@ -29,15 +29,15 @@ const getAllDevices = () => async (dispatch, getState) => {
                                 device.description === 'temp sensor' ||
                                 device.description === 'light sensor'
                             )
-                                ? device.data[device.data.length - 1].value
+                                ? device.data[0].value
                                 :
                                 (
                                     (device.description === 'light' &&
-                                        device.data[device.data.length - 1].value === "0") ||
+                                        device.data[0].value === "0") ||
                                     (device.description === 'fan' &&
-                                        device.data[device.data.length - 1].value === "2") ||
+                                        device.data[0].value === "2") ||
                                     (device.description === 'door' &&
-                                        device.data[device.data.length - 1].value === "4")
+                                        device.data[0].value === "4")
                                 )
                                     ? false
                                     : true
@@ -53,9 +53,7 @@ const getAllDevices = () => async (dispatch, getState) => {
 
     dispatch(fetchData(roomsInfo))
 
-    //* Logs all rooms' data after logged in
-    console.log('All rooms data:')
-    console.log(getState().rooms.availableRooms)
+    console.log('Get rooms data successfully')
 }
 
 export default getAllDevices

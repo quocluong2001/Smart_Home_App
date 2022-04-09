@@ -7,6 +7,7 @@ import { configureStore } from './store/store';
 import fetchFonts from './utils/fetchFonts';
 import MainNavigator from './navigations/MainNavigator'
 import getAllRooms from './store/thunk-functions/getAllRooms'
+import { socket, SocketContext } from './utils/socket'
 
 enableScreens()
 
@@ -18,9 +19,11 @@ const store = configureStore()
 
 export default AppWrapper = () => {
   return (
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <SocketContext.Provider value={socket}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </SocketContext.Provider>
   )
 }
 

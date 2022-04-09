@@ -33,6 +33,7 @@ const addDevices = async () => {
           // }
         });
       });
+      return Promise.resolve(true);
     }
   } catch (error) {
     console.error(error.message);

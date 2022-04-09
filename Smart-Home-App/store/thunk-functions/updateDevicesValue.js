@@ -1,29 +1,59 @@
 import axios from 'axios'
 
-import { toggleOnOff } from '../actions/toggleDeviceStatus'
+import { updateDevicesValueToStore } from '../actions/updateDevicesValueToStore'
+import formatData from '../../utils/formatData'
 
 const updateDevicesValue = (roomId, deviceId) => async (dispatch, getState) => {
-
-    dispatch(toggleOnOff(roomId, deviceId))
 
     const selectedRoom = getState().rooms.availableRooms.find(room => room.id === roomId)
     const selectedDevice = selectedRoom.devices.find(device => device.id === deviceId)
 
-    await axios.post(`http://192.168.1.100:5000/api/device/${deviceId}/data`, {
-        "value": selectedDevice.type === 'light' && selectedDevice.payload.value === true
-            ? 1
+    const body = {
+        value: selectedDevice.type === 'light' && selectedDevice.payload.value === true
+            ? 0
             : selectedDevice.type === 'light' && selectedDevice.payload.value === false
-                ? 0
+                ? 1
                 : selectedDevice.type === 'fan' && selectedDevice.payload.value === true
-                    ? 3
+                    ? 2
                     : selectedDevice.type === 'fan' && selectedDevice.payload.value === false
-                        ? 2
+                        ? 3
                         : selectedDevice.type === 'door' && selectedDevice.payload.value === true
-                            ? 5
-                            : 4
-    })
-    .then(response => console.log(response))
-    .catch(error => console.log(error))
+                            ? 4
+                            : 5
+    }
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+
+    await axios.post(
+        `http://192.168.1.100:5000/api/device/${deviceId}/data`,
+        body,
+        config
+    )
+        .then(response => {
+            const updatedValue = formatData(selectedDevice.type, response.data)
+
+            dispatch(
+                updateDevicesValueToStore(
+                    roomId,
+                    deviceId,
+                    updatedValue
+                )
+            )
+        })
+        .catch(error => {
+            console.log(error)
+            dispatch(
+                updateDevicesValueToStore(
+                    roomId,
+                    deviceId,
+                    selectedDevice.payload.value)
+            )
+        })
+
 }
 
 export default updateDevicesValue

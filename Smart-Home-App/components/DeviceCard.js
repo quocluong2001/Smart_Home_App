@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
     View,
     StyleSheet,
@@ -16,22 +16,32 @@ import Colors from '../constants/Colors';
 import RemoveButton from './RemoveButton';
 import { selectDeviceInfoByDeviceId } from '../store/selectors/selectDevicesInfoByRoomId';
 import updateDevicesValue from '../store/thunk-functions/updateDevicesValue';
-import { toggleOnOff } from '../store/actions/toggleDeviceStatus';
 import { removeDevice } from '../store/actions/removeDevice';
+import { SocketContext } from '../utils/socket';
+import { updateDevicesValueToStore } from '../store/actions/updateDevicesValueToStore';
+import formatData from '../utils/formatData';
 
 const DeviceCard = props => {
+
+    //* For declaring state and variable ////
     const [isLoading, setIsLoading] = useState(true)
     const roomId = props.roomId
     const deviceId = props.deviceId
     const deviceInfo = useSelector(selectDeviceInfoByDeviceId(roomId, deviceId))
+    const [switchValue, setSwitchValue] = useState(deviceInfo.payload.value)
 
-    const dispatch = useDispatch()
 
+    const dispatch = useDispatch() //* For dispatch action
+
+
+    //* For switch's action ////
     const switchHandler = () => {
-        // dispatch(toggleOnOff(roomId, deviceId))
         dispatch(updateDevicesValue(roomId, deviceId))
+        setSwitchValue(!deviceInfo.payload.value)
     }
 
+
+    //* For undisplay device ////
     const removeDeviceHandler = () => {
         Alert.alert(
             'Confirm device\'s removal',
@@ -51,7 +61,36 @@ const DeviceCard = props => {
         )
     }
 
+
+    //* For socket ////
+    const socket = useContext(SocketContext);
+
+    useEffect(() => {
+        // socket.on('newDevice', (device) => { });
+
+        socket.on(
+            'updateDevice',
+            (ObjectId, description, updateData) => {
+                const updatedValue = formatData(description, updateData)
+
+                dispatch(updateDevicesValueToStore(roomId, ObjectId, updatedValue))
+
+                if (typeof updatedValue === "boolean") {
+                    setSwitchValue(updatedValue)
+                }
+
+            });
+
+        return () => {
+            socket.close();
+        };
+
+    }, [socket]);
+
+
+    //* For display device status ////
     let visibleState
+
     if (deviceInfo.payload.value === true) {
         visibleState = props.activeStateText
     }
@@ -94,7 +133,7 @@ const DeviceCard = props => {
                     <View style={styles.buttonContainer}>
                         <Switch
                             style={styles.switch}
-                            value={deviceInfo.payload.value}
+                            value={switchValue}
                             onValueChange={switchHandler}
                         />
                         <View style={styles.stateContainer}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
     View,
     StyleSheet,
@@ -10,26 +10,39 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
+import Loading from './Loading';
 import BodyText from './BodyText';
 import NormalButton from './NormalButton';
 import Colors from '../constants/Colors';
 import RemoveButton from './RemoveButton';
 import { selectDeviceInfoByDeviceId } from '../store/selectors/selectDevicesInfoByRoomId';
-import { toggleOnOff } from '../store/actions/toggleDeviceStatus'
+import updateDevicesValue from '../store/thunk-functions/updateDevicesValue';
+import { updateDevicesValueToStore } from '../store/actions/updateDevicesValueToStore'
 import { removeDevice } from '../store/actions/removeDevice';
+import { SocketContext } from '../utils/socket';
+import formatData from '../utils/formatData';
 
 const DeviceCardWithSetTimer = props => {
+
+    //* For declaring state and variable ////
+    const [isLoading, setIsLoading] = useState(true)
     const roomId = props.roomId
     const deviceId = props.deviceId
-
     const deviceInfo = useSelector(selectDeviceInfoByDeviceId(roomId, deviceId))
+    const [switchValue, setSwitchValue] = useState(deviceInfo.payload.value)
 
-    const dispatch = useDispatch()
 
+    const dispatch = useDispatch() //* For dispatch action
+
+
+    //* For switch's action ////
     const switchHandler = () => {
-        dispatch(toggleOnOff(roomId, deviceId))
+        dispatch(updateDevicesValue(roomId, deviceId))
+        setSwitchValue(!deviceInfo.payload.value)
     }
 
+
+    //* For undisplay device ////
     const removeDeviceHandler = () => {
         Alert.alert(
             'Confirm device\'s removal',
@@ -49,13 +62,41 @@ const DeviceCardWithSetTimer = props => {
         )
     }
 
+
+    //* For socket ////
+    const socket = useContext(SocketContext);
+
+    useEffect(() => {
+        // socket.on('newDevice', (device) => { });
+
+        socket.on('updateDevice', (ObjectId, description, updateData) => {
+
+            const updatedValue = formatData(description, updateData)
+
+            dispatch(updateDevicesValueToStore(roomId, ObjectId, updatedValue))
+
+            if (typeof updatedValue === "boolean") {
+                setSwitchValue(updatedValue)
+            }
+
+        });
+
+        return () => {
+            socket.close();
+        };
+    }, [socket]);
+
+
+    //* For display device status ////
     let visibleState
+    
     if (deviceInfo.payload.value === true) {
         visibleState = props.activeStateText
     }
     else {
         visibleState = props.inactiveStateText
     }
+
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -77,10 +118,15 @@ const DeviceCardWithSetTimer = props => {
                 <View style={styles.contentContainer}>
                     <View style={styles.imageStateContainer}>
                         <View style={styles.imageContainer}>
+                            <Loading
+                                visible={isLoading}
+                            />
                             <Image
                                 source={props.source}
                                 resizeMode='contain'
                                 style={styles.image}
+                                onLoadStart={() => setIsLoading(true)}
+                                onLoadEnd={() => setIsLoading(false)}
                             />
                         </View>
                         <View style={styles.stateContainer}>
@@ -92,7 +138,7 @@ const DeviceCardWithSetTimer = props => {
                     <View style={styles.buttonContainer}>
                         <Switch
                             style={styles.switch}
-                            value={deviceInfo.payload.value}
+                            value={switchValue}
                             onValueChange={switchHandler}
                         />
                         <NormalButton

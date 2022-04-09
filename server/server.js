@@ -3,7 +3,7 @@ const { Server } = require('socket.io');
 const mongoose = require('mongoose');
 
 const express = require('./config/express.js');
-const fetchInterval = require('./fetchroutes/fetch');
+const initialFetch = require('./fetchroutes/fetch');
 const connectDB = require('./config/db');
 
 // Setting path
@@ -31,13 +31,15 @@ const connection = mongoose.connection;
 
 connection.once('open', () => {
   // Fetch api from Adafruit at Interval of 5 seconds
-  fetchInterval;
+  initialFetch();
 
   console.log('MongoDB database connected');
 
   console.log('Setting change streams');
 
-  const DeviceChangeStream = connection.collection('devices').watch();
+  const DeviceChangeStream = connection
+    .collection('devices')
+    .watch([], { fullDocument: 'updateLookup' });
 
   DeviceChangeStream.on('change', (change) => {
     switch (change.operationType) {
@@ -55,7 +57,9 @@ connection.once('open', () => {
       case 'update':
         const updateFields = change.updateDescription.updatedFields;
         const updateData = updateFields.data;
-        io.of('/api/socket').emit('updateDevice', updateData);
+        const ObjectId = change.fullDocument.device_id;
+        const description = change.fullDocument.description;
+        io.of('/api/socket').emit('updateDevice', ObjectId, description, updateData);
         break;
       // case 'delete':
       //   io.of('/api/socket').emit('deletedTest', change.documentKey._id);

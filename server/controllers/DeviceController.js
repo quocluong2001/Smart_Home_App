@@ -34,6 +34,7 @@ const addDevice = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+  console.log(req.body)
   const { room_name, device_name, description } = req.body;
   try {
     const room = await Room.findOne({ name: room_name });
@@ -54,7 +55,7 @@ const addDevice = async (req, res) => {
       };
       await axios
         .post(
-          `https://io.adafruit.com/api/v2/andrewquang/feeds?group_key=${room.key}`,
+          `https://io.adafruit.com/api/v2/hohoanghuy2001/feeds?group_key=${room.key}`,
           DeviceFields,
           config
         )
@@ -92,7 +93,7 @@ const updateDevice = async (req, res) => {
       };
       await axios
         .put(
-          `https://io.adafruit.com/api/v2/andrewquang/feeds/${device.key}`,
+          `https://io.adafruit.com/api/v2/hohoanghuy2001/feeds/${device.key}`,
           DeviceFields,
           config
         )
@@ -126,7 +127,7 @@ const deleteDevice = async (req, res) => {
     if (device) {
       await axios
         .delete(
-          `https://io.adafruit.com/api/v2/andrewquang/feeds/${device.key}`
+          `https://io.adafruit.com/api/v2/hohoanghuy2001/feeds/${device.key}`
         )
         .then(async (success) => {
           let room = await Room.findOne({
@@ -192,12 +193,13 @@ const addDatatoDevice = async (req, res) => {
       };
       await axios
         .post(
-          `https://io.adafruit.com/api/v2/andrewquang/feeds/${device.key}/data`,
+          `https://io.adafruit.com/api/v2/hohoanghuy2001/feeds/${device.key}/data`,
           ValueField,
           config
         )
         .then(async (success) => {
-          return res.json({ msg: 'New Data has been added' });
+          //return res.json({ msg: 'New Data has been added' });
+          return res.json(success.data);
         })
         .catch((err) => {
           return res
