@@ -1,6 +1,6 @@
 const axios = require('axios');
 const Room = require('../models/Room');
-const Type = require('../models/Type');
+// const Type = require('../models/Type');
 const Device = require('../models/Device');
 
 const addDevices = async () => {
@@ -24,15 +24,16 @@ const addDevices = async () => {
             );
           }
 
-          const devicesinType = await Type.find({ devices: device._id });
-          if (devicesinType.length == 0) {
-            await Type.findOneAndUpdate(
-              { name: feed.description },
-              { $push: { devices: device._id } }
-            );
-          }
+          // const devicesinType = await Type.find({ devices: device._id });
+          // if (devicesinType.length == 0) {
+          //   await Type.findOneAndUpdate(
+          //     { name: feed.description },
+          //     { $push: { devices: device._id } }
+          //   );
+          // }
         });
       });
+      return Promise.resolve(true);
     }
   } catch (error) {
     console.error(error.message);

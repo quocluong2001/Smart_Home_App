@@ -1,17 +1,42 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { ImageBackground, StyleSheet } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import DeviceScreen from "./DeviceScreen";
 import { selectDevicesInfoByType } from "../store/selectors/selectDevicesInfoByRoomId";
+import { SocketContext } from "../utils/socket";
+import { updateDevicesValueToStore } from "../store/actions/updateDevicesValueToStore";
+import formatData from "../utils/formatData";
 
 const FanScreen = props => {
     const roomId = props.navigation.getParam('roomId')
     const activeFan = <MaterialCommunityIcons name="fan" size={25} color="white" />
     const inactiveFan = <MaterialCommunityIcons name="fan-off" size={25} color="white" />
 
+    const dispatch = useDispatch();
+
+    const socket = useContext(SocketContext);
+
+    useEffect(() => {
+        // socket.on('newDevice', (device) => { });
+
+        socket.on(
+            'updateDevice',
+            (ObjectId, description, updateData) => {
+                const updatedValue = formatData(description, updateData)
+
+                dispatch(updateDevicesValueToStore(roomId, ObjectId, updatedValue))
+            });
+
+        return () => {
+            socket.close();
+        };
+
+    }, [socket]);
+
     const sensorsInfo = useSelector(selectDevicesInfoByType(roomId, 'temp sensor'))
+
     //! hard coded
     const sensorInfo = sensorsInfo[0]
     //! end hard coded

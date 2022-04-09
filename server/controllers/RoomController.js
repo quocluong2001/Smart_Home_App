@@ -65,7 +65,7 @@ const addRoom = async (req, res) => {
       };
       await axios
         .post(
-          'https://io.adafruit.com/api/v2/andrewquang/groups',
+          'https://io.adafruit.com/api/v2/hohoanghuy2001/groups',
           RoomFields,
           config
         )
@@ -105,7 +105,7 @@ const updateRoom = async (req, res) => {
       };
       await axios
         .put(
-          `https://io.adafruit.com/api/v2/andrewquang/groups/${room.key}`,
+          `https://io.adafruit.com/api/v2/hohoanghuy2001/groups/${room.key}`,
           RoomFields,
           config
         )
@@ -139,7 +139,7 @@ const deleteRoom = async (req, res) => {
     let room = await Room.findOne({ room_id: req.params.room_id });
     if (room) {
       await axios
-        .delete(`https://io.adafruit.com/api/v2/andrewquang/groups/${room.key}`)
+        .delete(`https://io.adafruit.com/api/v2/hohoanghuy2001/groups/${room.key}`)
         .then(async (success) => {
           await Room.findOneAndRemove({ room_id: req.params.room_id });
           return res.json({ msg: 'Room has been deleted' });

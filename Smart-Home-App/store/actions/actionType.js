@@ -1,6 +1,6 @@
 export const TOGGLE_FAV = 'TOGGLE_FAV'
 
-export const TOGGLE_ON_OFF = 'TOGGLE_ON_OFF'
+export const UPDATE_DEVICE_VALUE_TO_STORE = 'UPDATE_DEVICE_VALUE_TO_STORE'
 
 export const ADD_DEVICE = 'ADD_DEVICE'
 

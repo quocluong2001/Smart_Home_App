@@ -6,7 +6,10 @@ import { fetchData } from "../actions/fetchData";
 const getAllDevices = () => async (dispatch, getState) => {
     const roomsInfo = getState().rooms.availableRooms
     for (room of roomsInfo) {
-        const devicesPromise = await axios.get(`http://192.168.1.100:5000/api/room/${room.id}/devices`)
+        const devicesPromise = await axios.get(
+            `http://192.168.1.100:5000/api/room/${room.id}/devices`
+        )
+
         const devicesData = devicesPromise.data.map(
             device => {
                 return new Device(
@@ -14,7 +17,7 @@ const getAllDevices = () => async (dispatch, getState) => {
                     device.description,
                     device.name,
                     {
-                        ...device.data[device.data.length - 1],
+                        ...device.data[0],
                         unit:
                             device.description === 'temp sensor'
                                 ? 'Celsius'
@@ -22,24 +25,35 @@ const getAllDevices = () => async (dispatch, getState) => {
                                     ? 'Lux'
                                     : '',
                         value:
-                            device.description === 'temp sensor' || device.description === 'light sensor'
-                                ? device.data[device.data.length - 1].value
-                                : device.data[device.data.length - 1].value != "0"
-                                    ? true
-                                    : false
+                            (
+                                device.description === 'temp sensor' ||
+                                device.description === 'light sensor'
+                            )
+                                ? device.data[0].value
+                                :
+                                (
+                                    (device.description === 'light' &&
+                                        device.data[0].value === "0") ||
+                                    (device.description === 'fan' &&
+                                        device.data[0].value === "2") ||
+                                    (device.description === 'door' &&
+                                        device.data[0].value === "4")
+                                )
+                                    ? false
+                                    : true
                     }
                 )
             }
         )
         room.devices = devicesData
+
+        //! for test only
         break
     }
-    
+
     dispatch(fetchData(roomsInfo))
 
-    //* Logs all rooms' data after logged in
-    console.log('All rooms data:')
-    console.log(getState().rooms.availableRooms)
+    console.log('Get rooms data successfully')
 }
 
 export default getAllDevices

@@ -1,18 +1,45 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { ImageBackground, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import DeviceScreen from "./DeviceScreen";
 import { selectDevicesInfoByType } from "../store/selectors/selectDevicesInfoByRoomId";
+import { updateDevicesValueToStore } from "../store/actions/updateDevicesValueToStore";
+import { SocketContext } from "../utils/socket";
+import formatData from "../utils/formatData";
 
 const LightScreen = props => {
     const roomId = props.navigation.getParam('roomId')
     const activeLight = <MaterialCommunityIcons name="lightbulb-outline" size={25} color="white" />
     const inactiveLight = <MaterialCommunityIcons name="lightbulb-off-outline" size={25} color="white" />
 
+    const dispatch = useDispatch();
+
+    const socket = useContext(SocketContext);
+
+    useEffect(() => {
+        // socket.on('newDevice', (device) => { });
+
+        socket.on(
+            'updateDevice',
+            (ObjectId, description, updateData) => {
+                const updatedValue = formatData(description, updateData)
+
+                dispatch(updateDevicesValueToStore(roomId, ObjectId, updatedValue))
+            });
+
+        return () => {
+            socket.close();
+        };
+
+    }, [socket]);
+
     const sensorsInfo = useSelector(selectDevicesInfoByType(roomId, 'light sensor'))
+
+    //! hard coded
     const sensorInfo = sensorsInfo[0]
+    //! end hard coded
 
     return (
         <ImageBackground

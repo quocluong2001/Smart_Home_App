@@ -1,5 +1,5 @@
 import { TOGGLE_FAV } from "../actions/actionType"
-import { TOGGLE_ON_OFF } from "../actions/actionType"
+import { UPDATE_DEVICE_VALUE_TO_STORE } from "../actions/actionType"
 import { REMOVE_DEVICE } from "../actions/actionType"
 import { ADD_DEVICE } from "../actions/actionType"
 import { FETCH_DATA } from "../actions/actionType"
@@ -55,8 +55,8 @@ const toggleFavorite = (state, action) => {
     }
 }
 
-const toggleOnOff = (state, action) => {
-    let updatedRooms = [...state.rooms]
+const updateDevicesValue = (state, action) => {
+    let updatedRooms = [...state.availableRooms]
     updatedRooms = updatedRooms.map(room => {
         if (room.id === action.payload.roomId) {
             const updatedDevices = room.devices.map(device => {
@@ -66,8 +66,8 @@ const toggleOnOff = (state, action) => {
                         device.type,
                         device.name,
                         {
-                            ...device,
-                            value: device.payload.value ? false : true,
+                            ...device.payload,
+                            value: action.payload.value,
                         },
                     )
                 }
@@ -85,6 +85,7 @@ const toggleOnOff = (state, action) => {
 
     return {
         ...state,
+        availableRooms: updatedRooms,
         rooms: updatedRooms,
     }
 }
@@ -151,8 +152,8 @@ const roomReducers = (state = initialState, action) => {
             return updateData(state, action)
         case TOGGLE_FAV:
             return toggleFavorite(state, action)
-        case TOGGLE_ON_OFF:
-            return toggleOnOff(state, action)
+        case UPDATE_DEVICE_VALUE_TO_STORE:
+            return updateDevicesValue(state, action)
         case REMOVE_DEVICE:
             return removeDevice(state, action)
         case ADD_DEVICE:
