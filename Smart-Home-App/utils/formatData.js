@@ -10,6 +10,8 @@ const formatData = (description, data) => {
         ) {
             return false
         }
+
+        return true
     }
 
     //* Device object

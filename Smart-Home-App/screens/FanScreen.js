@@ -28,7 +28,8 @@ const FanScreen = props => {
 
                 dispatch(updateDevicesValueToStore(roomId, ObjectId, updatedValue))
             });
-
+            
+        //* clean up function
         return () => {
             socket.close();
         };

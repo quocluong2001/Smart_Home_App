@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { ImageBackground, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import DeviceScreen from "./DeviceScreen";
+import { SocketContext } from "../utils/socket";
+import { updateDevicesValueToStore } from "../store/actions/updateDevicesValueToStore";
+import formatData from "../utils/formatData";
 
 const DoorScreen = props => {
     const roomId = props.navigation.getParam('roomId')
     const unlockedDoor = <MaterialCommunityIcons name="door-closed" size={27} color="white" />
     const lockedDoor = <MaterialCommunityIcons name="door-closed-lock" size={27} color="white" />
+
+    const socket = useContext(SocketContext);
+
+    useEffect(() => {
+        // socket.on('newDevice', (device) => { });
+
+        socket.on(
+            'updateDevice',
+            (ObjectId, description, updateData) => {
+                const updatedValue = formatData(description, updateData)
+
+                dispatch(updateDevicesValueToStore(roomId, ObjectId, updatedValue))
+            });
+
+        //* clean up function
+        return () => {
+            socket.close();
+        };
+
+    }, [socket]);
 
     return (
         <ImageBackground
