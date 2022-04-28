@@ -31,6 +31,7 @@ const getAllDevices = () => async (dispatch, getState) => {
             : true,
       });
     });
+    
     room.devices = devicesData;
 
     //! for test only

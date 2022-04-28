@@ -47,7 +47,7 @@ const FanScreen = props => {
             source={{ uri: 'https://i.ibb.co/kcnGVT2/Background5.jpg' }}
             resizeMode="cover"
             style={styles.backgroundImage}
-            blurRadius={1}
+            // blurRadius={1}
         >
             <DeviceScreen
                 roomId={roomId}

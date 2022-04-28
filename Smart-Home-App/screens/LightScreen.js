@@ -47,7 +47,7 @@ const LightScreen = props => {
             source={{ uri: 'https://i.ibb.co/RQxxLY1/Background1.png' }}
             resizeMode="cover"
             style={styles.backgroundImage}
-            blurRadius={1}
+            // blurRadius={1}
         >
             <DeviceScreen
                 roomId={roomId}

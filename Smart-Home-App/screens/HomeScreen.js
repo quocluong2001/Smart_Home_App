@@ -25,7 +25,7 @@ const HomeScreen = props => {
                 source={{ uri: 'https://i.ibb.co/58LJzhP/Background4.jpg' }}
                 resizeMode="cover"
                 style={styles.backgroundImage}
-                blurRadius={1}
+                // blurRadius={1}
                 onLoadStart={() => setIsLoading(true)}
                 onLoadEnd={() => setIsLoading(false)}
             >

@@ -41,7 +41,7 @@ const RoomScreen = props => {
             source={{ uri: 'https://i.ibb.co/p0vSQQQ/Background3.png' }}
             resizeMode="cover"
             style={styles.backgroundImage}
-            blurRadius={1}
+            // blurRadius={1}
         >
             <View style={styles.screen}>
                 <View style={styles.content}>
