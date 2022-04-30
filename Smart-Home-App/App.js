@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import AppLoading from 'expo-app-loading';
-import { enableScreens } from 'react-native-screens'
-import { Provider, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import AppLoading from "expo-app-loading";
+import { enableScreens } from "react-native-screens";
+import { NavigationContainer } from "@react-navigation/native";
+import { Provider, useDispatch } from "react-redux";
 
-import { configureStore } from './store/store';
-import fetchFonts from './utils/fetchFonts';
-import MainNavigator from './navigations/MainNavigator'
-import getAllRooms from './store/thunk-functions/getAllRooms'
-import { socket, SocketContext } from './utils/socket'
+import { configureStore } from "./store/store";
+import fetchFonts from "./utils/fetchFonts";
+// import MainNavigator from "./navigations/MainNavigator";
+import MainNavigator from "./navigations/6.x/MainNavigator";
+import getAllRooms from "./store/thunk-functions/getAllRooms";
+import { socket, SocketContext } from "./utils/socket";
 
-enableScreens()
+enableScreens();
 
 const useFonts = async () => {
-  await fetchFonts()
-}
+  await fetchFonts();
+};
 
-const store = configureStore()
+const store = configureStore();
 
 export default AppWrapper = () => {
   return (
@@ -24,18 +26,18 @@ export default AppWrapper = () => {
         <App />
       </Provider>
     </SocketContext.Provider>
-  )
-}
+  );
+};
 
 const App = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   //! Load data
-  const [isFontsLoaded, setIsFontsLoaded] = useState(false)
+  const [isFontsLoaded, setIsFontsLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(getAllRooms())
-  }, [])
+    dispatch(getAllRooms());
+  }, []);
 
   //* Load font
   if (!isFontsLoaded) {
@@ -45,11 +47,13 @@ const App = () => {
         onFinish={() => setIsFontsLoaded(true)}
         onError={(error) => console.log(error)}
       />
-    )
+    );
   }
   //! Done load data
 
   return (
-    <MainNavigator />
+    <NavigationContainer>
+      <MainNavigator />
+    </NavigationContainer>
   );
-}
+};
