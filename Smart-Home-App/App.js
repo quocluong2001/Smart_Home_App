@@ -4,7 +4,8 @@ import { enableScreens } from "react-native-screens";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider, useDispatch } from "react-redux";
 
-import { configureStore } from "./store/store";
+// import { configureStore } from "./store/store";
+import store from "./store/store";
 import fetchFonts from "./utils/fetchFonts";
 // import MainNavigator from "./navigations/MainNavigator";
 import MainNavigator from "./navigations/6.x/MainNavigator";
@@ -17,7 +18,7 @@ const useFonts = async () => {
   await fetchFonts();
 };
 
-const store = configureStore();
+// const store = configureStore();
 
 export default AppWrapper = () => {
   return (

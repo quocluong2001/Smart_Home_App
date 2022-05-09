@@ -1,6 +1,6 @@
 import React, {
   useEffect,
-  useCallback,
+  // useCallback,
   useLayoutEffect,
   useState,
 } from "react";
@@ -27,6 +27,7 @@ const RoomScreen = (props) => {
 
   const [favIcon, setFavIcon] = useState(isFav ? "heart" : "heart-outline");
 
+  //! React Navigation 4.x
   //   const toggleFavoriteHandler = useCallback(() => {
   //     dispatch(toggleFav(roomId));
   //   }, [roomId]);

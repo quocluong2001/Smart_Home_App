@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import { ImageBackground, StyleSheet } from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { ImageBackground, StyleSheet } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
+import { useRoute } from "@react-navigation/native";
 
 import DeviceScreen from "./DeviceScreen";
 import { selectDevicesInfoByType } from "../store/selectors/selectDevicesInfoByRoomId";
@@ -9,73 +10,79 @@ import { SocketContext } from "../utils/socket";
 import { updateDevicesValueToStore } from "../store/actions/updateDevicesValueToStore";
 import formatData from "../utils/formatData";
 
-const FanScreen = props => {
-    const roomId = props.navigation.getParam('roomId')
-    const activeFan = <MaterialCommunityIcons name="fan" size={25} color="white" />
-    const inactiveFan = <MaterialCommunityIcons name="fan-off" size={25} color="white" />
+const FanScreen = (props) => {
+  const route = useRoute();
 
-    const dispatch = useDispatch();
+  const roomId = route.params.roomId;
+  
+  const activeFan = (
+    <MaterialCommunityIcons name="fan" size={25} color="white" />
+  );
+  const inactiveFan = (
+    <MaterialCommunityIcons name="fan-off" size={25} color="white" />
+  );
 
-    const socket = useContext(SocketContext);
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        // socket.on('newDevice', (device) => { });
+  const socket = useContext(SocketContext);
 
-        socket.on(
-            'updateDevice',
-            (ObjectId, description, updateData) => {
-                const updatedValue = formatData(description, updateData)
+  useEffect(() => {
+    // socket.on('newDevice', (device) => { });
 
-                dispatch(updateDevicesValueToStore(roomId, ObjectId, updatedValue))
-            });
-            
-        //* clean up function
-        return () => {
-            socket.close();
-        };
+    socket.on("updateDevice", (ObjectId, description, updateData) => {
+      const updatedValue = formatData(description, updateData);
 
-    }, [socket]);
+      dispatch(updateDevicesValueToStore(roomId, ObjectId, updatedValue));
+    });
 
-    const sensorsInfo = useSelector(selectDevicesInfoByType(roomId, 'temp sensor'))
+    //* clean up function
+    return () => {
+      socket.close();
+    };
+  }, [socket]);
 
-    //! hard coded
-    const sensorInfo = sensorsInfo[0]
-    //! end hard coded
+  const sensorsInfo = useSelector(
+    selectDevicesInfoByType(roomId, "temp sensor")
+  );
 
-    return (
-        <ImageBackground
-            source={{ uri: 'https://i.ibb.co/kcnGVT2/Background5.jpg' }}
-            resizeMode="cover"
-            style={styles.backgroundImage}
-            // blurRadius={1}
-        >
-            <DeviceScreen
-                roomId={roomId}
-                deviceType='fan'
-                deviceImage={{ uri: 'https://i.ibb.co/DMk2mw2/Fan.png' }}
-                numOfButtons='2'
-                activeStateText={activeFan}
-                inactiveStateText={inactiveFan}
-                informationCard={true}
-                infoTitle='Temperature'
-                infoValue={sensorInfo.payload.value}
-                infoUnit={sensorInfo.payload.unit}
-            />
-        </ImageBackground>
-    )
-}
+  //! hard coded
+  const sensorInfo = sensorsInfo[0];
+  //! end hard coded
 
-FanScreen.navigationOptions = navData => {
-    return {
-        headerTitle: 'Fan(s)'
-    }
-}
+  return (
+    <ImageBackground
+      source={{ uri: "https://i.ibb.co/kcnGVT2/Background5.jpg" }}
+      resizeMode="cover"
+      style={styles.backgroundImage}
+      // blurRadius={1}
+    >
+      <DeviceScreen
+        roomId={roomId}
+        deviceType="fan"
+        deviceImage={{ uri: "https://i.ibb.co/DMk2mw2/Fan.png" }}
+        numOfButtons="2"
+        activeStateText={activeFan}
+        inactiveStateText={inactiveFan}
+        informationCard={true}
+        infoTitle="Temperature"
+        infoValue={sensorInfo.payload.value}
+        infoUnit={sensorInfo.payload.unit}
+      />
+    </ImageBackground>
+  );
+};
+
+// FanScreen.navigationOptions = (navData) => {
+//   return {
+//     headerTitle: "Fan(s)",
+//   };
+// };
 
 const styles = StyleSheet.create({
-    backgroundImage: {
-        width: '100%',
-        height: '100%'
-    },
-})
+  backgroundImage: {
+    width: "100%",
+    height: "100%",
+  },
+});
 
-export default FanScreen
+export default FanScreen;

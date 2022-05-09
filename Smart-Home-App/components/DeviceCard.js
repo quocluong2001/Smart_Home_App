@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -7,8 +7,8 @@ import {
   Keyboard,
   Switch,
   Alert,
-//   Animated,
-//   Easing,
+  //   Animated,
+  //   Easing,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -35,8 +35,8 @@ const DeviceCard = (props) => {
 
   //* For switch's action ////
   const switchHandler = () => {
-    dispatch(updateDevicesValue(roomId, deviceId));
-    setSwitchValue(!deviceInfo.payload.value);
+    dispatch(updateDevicesValue({ roomId: roomId, deviceId: deviceId }));
+    setSwitchValue(deviceInfo.payload.value);
     // if (switchValue === true) {
     //   startRotate();
     // } else if (switchValue === false) {
@@ -95,25 +95,25 @@ const DeviceCard = (props) => {
   }
 
   //* Animation ////
-//   const rotateValue = useRef(new Animated.Value(0)).current;
+  //   const rotateValue = useRef(new Animated.Value(0)).current;
 
-//   function startRotate() {
-//     Animated.timing(rotateValue, {
-//       toValue: 1,
-//       duration: 50000,
-//       useNativeDriver: false,
-//       easing: Easing.linear,
-//     }).start();
-//   }
+  //   function startRotate() {
+  //     Animated.timing(rotateValue, {
+  //       toValue: 1,
+  //       duration: 50000,
+  //       useNativeDriver: false,
+  //       easing: Easing.linear,
+  //     }).start();
+  //   }
 
-//   function stopRotate() {
-//     Animated.timing(rotateValue).stop();
-//   }
+  //   function stopRotate() {
+  //     Animated.timing(rotateValue).stop();
+  //   }
 
-//   const rotateData = rotateValue.interpolate({
-//     inputRange: [0, 1],
-//     outputRange: ["0deg", "360deg"],
-//   });
+  //   const rotateData = rotateValue.interpolate({
+  //     inputRange: [0, 1],
+  //     outputRange: ["0deg", "360deg"],
+  //   });
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

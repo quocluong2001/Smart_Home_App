@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { ImageBackground, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
+import { useRoute } from "@react-navigation/native";
 
 import DeviceScreen from "./DeviceScreen";
 import { SocketContext } from "../utils/socket";
@@ -9,7 +10,10 @@ import { updateDevicesValueToStore } from "../store/actions/updateDevicesValueTo
 import formatData from "../utils/formatData";
 
 const DoorScreen = (props) => {
-  const roomId = props.navigation.getParam("roomId");
+  const route = useRoute();
+
+  const roomId = route.params.roomId;
+
   const unlockedDoor = (
     <MaterialCommunityIcons name="door-closed" size={27} color="white" />
   );
