@@ -18,12 +18,12 @@ const AddDeviceModal = (props) => {
   return (
     <Modal visible={props.visible} animationType="slide">
       <View style={styles.container}>
-        <BodyText style={{ fontFamily: "roboto-bold" }}>
+        <BodyText style={{ fontFamily: "roboto-bold", fontSize: 18 }}>
           Press on device you want to add
         </BodyText>
         <AvailableDevicesList listData={deviceList} roomId={roomId} />
         <NormalButton
-          buttonName="Cancel"
+          buttonName="Done"
           buttonStyle={styles.cancelButton}
           buttonTextStyle={styles.buttonText}
           onPress={props.onCancel}

@@ -8,12 +8,6 @@ import getAllRooms from "../thunk-functions/getAllRooms";
 import updateDevicesValue from "../thunk-functions/updateDevicesValue";
 import { updateDevicesValueToStore } from "../actions/updateDevicesValueToStore";
 
-// import { TOGGLE_FAV } from "../actions/actionType";
-// import { UPDATE_DEVICE_VALUE_TO_STORE } from "../actions/actionType";
-// import { REMOVE_DEVICE } from "../actions/actionType";
-// import { ADD_DEVICE } from "../actions/actionType";
-// import { FETCH_DATA } from "../actions/actionType";
-// import { Device } from "../../models/device";
 import Room from "../../models/room";
 
 const initialState = {
